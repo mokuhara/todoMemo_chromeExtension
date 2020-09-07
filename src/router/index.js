@@ -1,22 +1,25 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Memo from '../components/pages/Memo.vue'
+import Todo from '../components/pages/Todo.vue'
+import Serach from '../components/pages/Search.vue'
 
 Vue.use(VueRouter)
 
-  const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
+const routes = [{
+    path: '/memo',
+    name: 'Memo',
+    component: Memo
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/todo',
+    name: 'Todo',
+    component: Todo
+  },
+  {
+    path: '/search',
+    name: 'Serach',
+    component: Serach
   }
 ]
 
