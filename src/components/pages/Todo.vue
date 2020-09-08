@@ -2,7 +2,10 @@
   <div>
     todo
     {{ todo }}
-    <!-- {{ todoCards }} -->
+    {{ todoCards }}
+    <div>
+      <CardList :type="type" />
+    </div>
     <NewButton />
     <div v-if="modalIsOpen">
       <Modal>
@@ -16,14 +19,21 @@
 import CreateTodo from "../organisms/CreateTodo";
 import NewButton from "../molecules/NewButton";
 import Modal from "../molecules/Modal";
+import CardList from "../molecules/CardList";
 
 import { mapState } from "vuex";
 
 export default {
+  data() {
+    return {
+      type: "todo",
+    };
+  },
   components: {
     NewButton,
     Modal,
     CreateTodo,
+    CardList,
   },
   computed: {
     ...mapState(["modalIsOpen", "todo", "todoCards"]),

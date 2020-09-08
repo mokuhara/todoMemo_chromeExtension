@@ -81,8 +81,10 @@ const mutations = {
     if (payload.method === "create") {
       if (payload.type === "memo") {
         state.memo.created_at = new Date();
+        state.memo.updated_at = new Date();
       } else if (payload.type === "todo") {
         state.todo.created_at = new Date();
+        state.todo.updated_at = new Date();
       }
     } else if (payload.method === "update") {
       if (payload.type === "memo") {

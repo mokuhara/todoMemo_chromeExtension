@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <a :href="href">
+      <a :href="href" target="_blank">
         <img :src="imgSrc" />
       </a>
     </div>
@@ -17,5 +17,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

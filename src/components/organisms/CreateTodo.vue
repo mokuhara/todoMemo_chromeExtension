@@ -14,6 +14,9 @@
         <InputTag :type="type" />
       </div>
       <div>
+        <InputCheck />
+      </div>
+      <div>
         <SubmitButton :text="submitButtonText" :callback="createMemo" />
       </div>
     </div>
@@ -26,6 +29,7 @@ import InputText from "../molecules/InputText";
 import InputCalender from "../molecules/InputCalender";
 import InputIcon from "../molecules/InputIcon";
 import SubmitButton from "../atoms/SubmitButton";
+import InputCheck from "../molecules/InputCheck";
 
 import { mapActions, mapState, mapMutations } from "vuex";
 
@@ -42,6 +46,7 @@ export default {
     InputCalender,
     InputIcon,
     SubmitButton,
+    InputCheck,
   },
   computed: {
     ...mapState(["todo"]),
