@@ -13,14 +13,26 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   data() {
     return {
       value: "",
     };
   },
+  props: {
+    type: String,
+  },
   methods: {
-    onBlurTextarea() {},
+    ...mapMutations(["storeMTToState"]),
+    onBlurTextarea() {
+      this.storeMTToState({
+        type: this.type,
+        dtype: "text",
+        data: this.value,
+      });
+    },
   },
 };
 </script>

@@ -1,25 +1,32 @@
 <template>
   <div>
     todo
-    <Tag />
-    <InputText />
-    <Calender />
-    <Icon />
+    {{ todo }}
+    <!-- {{ todoCards }} -->
+    <NewButton />
+    <div v-if="modalIsOpen">
+      <Modal>
+        <CreateTodo />
+      </Modal>
+    </div>
   </div>
 </template>
 
 <script>
-import Tag from "../molecules/Tag";
-import InputText from "../molecules/InputText";
-import Calender from "../molecules/Calender";
-import Icon from "../molecules/Icon";
+import CreateTodo from "../organisms/CreateTodo";
+import NewButton from "../molecules/NewButton";
+import Modal from "../molecules/Modal";
+
+import { mapState } from "vuex";
 
 export default {
   components: {
-    Tag,
-    InputText,
-    Calender,
-    Icon,
+    NewButton,
+    Modal,
+    CreateTodo,
+  },
+  computed: {
+    ...mapState(["modalIsOpen", "todo", "todoCards"]),
   },
 };
 </script>

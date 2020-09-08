@@ -1,0 +1,79 @@
+<template>
+  <div>
+    <div class="container">
+      <div>
+        <InputIcon :type="type" />
+      </div>
+      <div>
+        <InputText :type="type" />
+      </div>
+      <div>
+        <InputCalender :type="type" />
+      </div>
+      <div>
+        <InputTag :type="type" />
+      </div>
+      <div>
+        <SubmitButton :text="submitButtonText" :callback="createMemo" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import InputTag from "../molecules/InputTag";
+import InputText from "../molecules/InputText";
+import InputCalender from "../molecules/InputCalender";
+import InputIcon from "../molecules/InputIcon";
+import SubmitButton from "../atoms/SubmitButton";
+
+import { mapActions, mapState, mapMutations } from "vuex";
+
+export default {
+  data() {
+    return {
+      submitButtonText: "メモをつくる",
+      type: "todo",
+    };
+  },
+  components: {
+    InputTag,
+    InputText,
+    InputCalender,
+    InputIcon,
+    SubmitButton,
+  },
+  computed: {
+    ...mapState(["todo"]),
+  },
+  methods: {
+    ...mapActions(["pushMT"]),
+    ...mapMutations(["createTimeStamp", "changeMordalStatus"]),
+    createMemo() {
+      if (this.validateNullInput()) return;
+      this.createTimeStamp({ type: "todo", method: "create" });
+      this.pushMT({ type: "todo", method: "create" });
+      this.changeMordalStatus();
+    },
+    validateNullInput() {
+      const todo = this.todo;
+      if (
+        !todo.text ||
+        !todo.pageUrl ||
+        !todo.pageTitle ||
+        !todo.favIconUrl ||
+        !todo.dateRange
+      ) {
+        alert("空白の値があります。");
+        return true;
+      }
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.container {
+  padding: 20px;
+}
+</style>

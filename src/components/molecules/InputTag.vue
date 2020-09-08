@@ -10,6 +10,7 @@
         label="name"
         track-by="code"
         @tag="addTag"
+        @remove="removeTag"
         tag-placeholder="Add this as new tag"
         placeholder="Type to search or add tag"
       >
@@ -21,6 +22,8 @@
 
 <script>
 import Multiselect from "vue-multiselect";
+
+import { mapMutations } from "vuex";
 export default {
   components: {
     Multiselect,
@@ -31,7 +34,11 @@ export default {
       taggingSelected: [],
     };
   },
+  props: {
+    type: String,
+  },
   methods: {
+    ...mapMutations(["storeMTToState"]),
     addTag(newTag) {
       const tag = {
         name: newTag,
@@ -39,6 +46,22 @@ export default {
       };
       this.taggingOptions.push(tag);
       this.taggingSelected.push(tag);
+      this.storeMTToState({
+        type: this.type,
+        dtype: "tags",
+        data: this.taggingSelected,
+      });
+    },
+    removeTag(removeTag) {
+      const removedTags = this.taggingSelected.filter((tag) => {
+        return tag.code !== removeTag.code;
+      });
+      this.taggingSelected = removedTags;
+      this.storeMTToState({
+        type: this.type,
+        dtype: "tags",
+        data: removedTags,
+      });
     },
   },
 };
