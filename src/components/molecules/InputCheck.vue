@@ -7,16 +7,10 @@
             <div>
               <input
                 type="checkbox"
-                id="check"
-                name="check"
                 v-model="done"
                 @click="sendData"
+                :checked="checked"
               />
-              <label for="check">
-                <span
-                  ><!-- This span is needed to create the "checkbox" element --></span
-                >
-              </label>
             </div>
           </form>
         </div>
@@ -26,7 +20,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapActions, mapMutations } from "vuex";
 
 export default {
   data() {
@@ -37,133 +31,21 @@ export default {
   props: {
     checked: Boolean,
     type: String,
+    dataId: String,
   },
   methods: {
+    ...mapActions(["findMTFromRepository", "pushMT"]),
     ...mapMutations(["storeMTToState"]),
-    sendData() {
-      this.storeMTToState({
+    sendData(e) {
+      this.findMTFromRepository({
+        id: this.dataId,
         type: this.type,
         dtype: "done",
-        data: this.checked,
+        data: !this.done,
       });
+      this.pushMT({ type: "todo", method: "update" });
     },
   },
 };
 </script>
-<style lang="scss" scoped>
-label {
-  display: inline-block; // to make it easier to click
-  color: #000;
-  cursor: pointer;
-  position: relative; // important
-
-  // Now we'll create the checkbox object
-
-  span {
-    display: inline-block;
-    position: relative;
-    background-color: transparent;
-    width: 25px;
-    height: 25px;
-    transform-origin: center;
-    border: 2px solid rgba(224, 224, 224, 0.5);
-    border-radius: 50%;
-    vertical-align: -6px;
-    margin-right: 10px;
-    transition: background-color 150ms 200ms,
-      transform 350ms cubic-bezier(0.78, -1.22, 0.17, 1.89); // custom ease effect for bouncy animation
-
-    // Now we'll create the "tick" using pseudo elements - those will be basically two lines that will be rotated to form the "tick"
-
-    &:before {
-      content: "";
-      width: 0px;
-      height: 2px;
-      border-radius: 2px; // so that the tick has nice rounded look
-      background: #000;
-      position: absolute;
-      transform: rotate(45deg);
-      top: 13px; // you'll need to experiment with placement depending on the dimensions you've chosen
-      left: 9px; // you'll need to experiment with placement depending on the dimensions you've chosen
-      transition: width 50ms ease 50ms;
-      transform-origin: 0% 0%;
-    }
-
-    &:after {
-      content: "";
-      width: 0;
-      height: 2px;
-      border-radius: 2px; // so that the tick has nice rounded look
-      background: #000;
-      position: absolute;
-      transform: rotate(305deg);
-      top: 16px; // you'll need to experiment with placement depending on the dimensions you've chosen
-      left: 10px; // you'll need to experiment with placement depending on the dimensions you've chosen
-      transition: width 50ms ease;
-      transform-origin: 0% 0%;
-    }
-  }
-  // Time to add some life to it
-
-  &:hover {
-    span {
-      &:before {
-        width: 5px;
-        transition: width 100ms ease;
-      }
-
-      &:after {
-        width: 10px;
-        transition: width 150ms ease 100ms;
-      }
-    }
-  }
-}
-
-input[type="checkbox"] {
-  display: none; // hide the system checkbox
-
-  // Let's add some effects after the checkbox is checked
-
-  &:checked {
-    + label {
-      span {
-        background-color: rgba(224, 224, 224, 0.5);
-        transform: scale(1.2); // enlarge the box
-
-        &:after {
-          width: 10px;
-          background: #1790b5;
-          transition: width 150ms ease 100ms; // enlarge the tick
-        }
-
-        &:before {
-          width: 5px;
-          background: #1790b5;
-          transition: width 150ms ease 100ms; // enlarge the tick
-        }
-      }
-
-      &:hover {
-        // copy the states for onMouseOver to avoid flickering
-        span {
-          background-color: rgba(224, 224, 224, 0.5);
-          transform: scale(1.25); // enlarge the box
-
-          &:after {
-            width: 10px;
-            background: #1790b5;
-            transition: width 150ms ease 100ms; // enlarge the tick
-          }
-
-          &:before {
-            width: 5px;
-            background: #1790b5;
-            transition: width 150ms ease 100ms; // enlarge the tick
-          }
-        }
-      }
-    }
-  }
-}
-</style>
+<style lang="scss" scoped></style>

@@ -6,7 +6,7 @@
           <Icon :href="pageUrl" :imgSrc="favIconUrl" />
         </div>
         <div>
-          <InputCheck :type="type" :checked="done" />
+          <InputCheck :type="type" :checked="done" :dataId="id" />
         </div>
       </div>
       <div class="rightWrapper">
@@ -15,17 +15,17 @@
             <Title :title="pageTitle" />
           </div>
           <div>
-            <Text :text="updated_at" />
+            <MText :mtext="updated_at" />
           </div>
           <div>
             <!-- datelabel  -->
           </div>
         </div>
         <div class="bottomWrapper">
-          <Text :text="text" />
+          <MText :mtext="text" />
         </div>
         <div>
-          <!-- tag -->
+          <TagList :tags="tags" />
         </div>
       </div>
     </div>
@@ -35,8 +35,9 @@
 <script>
 import InputCheck from "../molecules/InputCheck";
 import Title from "../atoms/Title";
-import Text from "../atoms/Title";
+import MText from "../atoms/Text";
 import Icon from "../atoms/Icon";
+import TagList from "../atoms/TagList";
 
 export default {
   data() {
@@ -47,10 +48,12 @@ export default {
   components: {
     InputCheck,
     Title,
-    Text,
+    MText,
     Icon,
+    TagList,
   },
   props: {
+    id: String,
     text: String,
     updated_at: String,
     pageUrl: String,

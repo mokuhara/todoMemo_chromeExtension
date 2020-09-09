@@ -75,8 +75,24 @@ const actions = {
     const data = repository.getAll;
     commit("pushMT", { type, data });
   },
+  findMTFromRepository({ commit }, payload) {
+    const repository = new Repository(payload.type);
+    const data = repository.getAll;
+    const MT = data.find((data) => {
+      return data.id === payload.id;
+    });
+    commit("setMT", { type: payload.type, data: MT });
+    commit("storeMTToState", payload);
+  },
 };
 const mutations = {
+  setMT(state, payload) {
+    if (payload.type === "memo") {
+      state.memo = payload.data;
+    } else if (payload.type === "todo") {
+      state.todo = payload.data;
+    }
+  },
   createTimeStamp(state, payload) {
     if (payload.method === "create") {
       if (payload.type === "memo") {
@@ -115,7 +131,7 @@ const mutations = {
     } else if (payload.type === "todo") {
       Object.keys(state.todo).map((key) => {
         if (key === payload.dtype) {
-          if (!payload.data) return;
+          // if (!payload.data) return;
           state.todo[key] = payload.data;
         }
       });

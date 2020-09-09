@@ -2,6 +2,7 @@
   <div>
     todo
     {{ todo }}
+    todocard
     {{ todoCards }}
     <div>
       <CardList :type="type" />

@@ -17,7 +17,7 @@
         <InputCheck />
       </div>
       <div>
-        <SubmitButton :text="submitButtonText" :callback="createMemo" />
+        <SubmitButton :text="submitButtonText" :callback="createTodo" />
       </div>
     </div>
   </div>
@@ -36,7 +36,7 @@ import { mapActions, mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      submitButtonText: "メモをつくる",
+      submitButtonText: "todoをつくる",
       type: "todo",
     };
   },
@@ -54,7 +54,7 @@ export default {
   methods: {
     ...mapActions(["pushMT"]),
     ...mapMutations(["createTimeStamp", "changeMordalStatus"]),
-    createMemo() {
+    createTodo() {
       if (this.validateNullInput()) return;
       this.createTimeStamp({ type: "todo", method: "create" });
       this.pushMT({ type: "todo", method: "create" });

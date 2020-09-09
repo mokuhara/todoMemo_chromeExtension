@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <p>{{ mtext }}</p>
+      {{ tag.name }}
     </div>
   </div>
 </template>
@@ -9,7 +9,7 @@
 <script>
 export default {
   props: {
-    mtext: String,
+    tag: Object,
   },
 };
 </script>

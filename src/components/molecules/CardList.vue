@@ -10,6 +10,7 @@
         <ul v-for="(todo, index) in todoCards" :key="index">
           <li>
             <TodoCard
+              :id="todo.id"
               :text="todo.text"
               :updated_at="todo.updated_at"
               :pageUrl="todo.pageUrl"
@@ -45,7 +46,6 @@ export default {
     ...mapActions(["getFromRepository"]),
   },
   mounted() {
-    console.log("hoge");
     const type = "todo";
     this.$store.dispatch("getFromRepository", type);
   },
