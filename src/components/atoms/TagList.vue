@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div>
-      <ul v-for="(tag, index) in tags" :key="index">
+    <div class="container">
+      <ul class="tagList" v-for="(tag, index) in tags" :key="index">
         <li>
           <Tag :tag="tag" />
         </li>
@@ -23,4 +23,14 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.container {
+  display: flex;
+}
+.tagList {
+  list-style: none;
+  padding-inline-start: 0;
+  margin: 5px;
+  margin-left: 0px;
+}
+</style>

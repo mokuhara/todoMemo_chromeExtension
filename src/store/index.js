@@ -12,7 +12,7 @@ const state = {
       text: "memo",
     },
     {
-      path: "todo",
+      path: "",
       text: "todo",
     },
     {
@@ -67,9 +67,9 @@ const actions = {
     dispatch("getFromRepository", payload.type);
     commit("resetMT", payload.type);
   },
-  deleteMT({ dispatch}, payload){
+  deleteMT({ dispatch }, payload) {
     const repository = new Repository(payload.type);
-    repository.delete(payload.id)
+    repository.delete(payload.id);
     dispatch("getFromRepository", payload.type);
   },
   storeToRepository({}, payload) {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div class="icon">
       <a :href="href" target="_blank">
         <img :src="imgSrc" />
       </a>
@@ -17,4 +17,11 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.icon img {
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  border-radius: 50%;
+}
+</style>

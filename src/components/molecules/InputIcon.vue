@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="container">
-      <div>
+      <div class="icon">
         <img :src="favIcon" />
       </div>
-      <div>
+      <div class="title">
         {{ title }}
       </div>
     </div>
@@ -73,5 +73,18 @@ export default {
 <style scoped>
 .container {
   display: flex;
+}
+
+.icon img {
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  border-radius: 50%;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
 }
 </style>

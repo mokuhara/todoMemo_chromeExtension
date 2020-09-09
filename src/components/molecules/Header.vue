@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div class="container">
       <LinkList :linkList="RouterLinkText" :type="routerLink" />
     </div>
   </div>
@@ -27,4 +27,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.container {
+  position: fixed;
+  top: 0;
+  width: 95%;
+  background-color: rgba(255, 255, 255, 0.8);
+}
 </style>

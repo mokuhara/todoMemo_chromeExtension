@@ -1,7 +1,7 @@
 <template>
   <div>
     <div @click="_deleteMT">
-      削除
+      <span class="delete">削除</span>
     </div>
   </div>
 </template>
@@ -29,4 +29,12 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.delete {
+  display: inline-block;
+  padding: 3px 8px;
+  background-color: rgb(196, 47, 38);
+  color: #fff;
+  border-radius: 3px;
+}
+</style>

@@ -1,11 +1,11 @@
 <template>
   <div>
-    {{ mtMode }}
+    <!-- {{ mtMode }}
     todo
     {{ todo }}
     todocard
-    {{ todoCards }}
-    <div>
+    {{ todoCards }} -->
+    <div class="container">
       <CardList :type="mtMode.type" />
     </div>
     <NewButton />

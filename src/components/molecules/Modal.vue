@@ -50,7 +50,7 @@ button:focus {
   vertical-align: middle;
   width: 80%;
   max-width: 600px;
-  height: 500px;
+  height: 450px;
 }
 .modalContent {
   height: 100%;

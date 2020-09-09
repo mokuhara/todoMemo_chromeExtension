@@ -1,24 +1,30 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/memo">Memo</router-link>
-      <router-link to="/todo">Todo</router-link>
-      <router-link to="/Search">Search</router-link>
+    <div class="header">
+      <MTHeader />
     </div>
-    <router-view />
+    <div>
+      <router-view />
+    </div>
   </div>
 </template>
 
 <script>
+import MTHeader from "../components/molecules/Header";
+
 export default {
   name: "App",
-  components: {},
+  components: { MTHeader },
 };
 </script>
 
 <style>
 html {
   width: 400px;
-  height: 800px;
+  height: 100%;
+}
+
+body {
+  border-radius: 5px;
 }
 </style>

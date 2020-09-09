@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div class="title">
       <h2>{{ title }}</h2>
     </div>
   </div>
@@ -14,4 +14,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.title h2 {
+  font-size: 12px;
+  padding: 0;
+  margin: 0;
+}
+</style>

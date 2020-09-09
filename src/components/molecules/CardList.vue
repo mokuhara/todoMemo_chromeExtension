@@ -1,13 +1,13 @@
 <template>
   <div>
     <div>
-      <div v-if="type === 'memo'">
-        <ul v-for="(memo, index) in memoCards" :key="index">
+      <div class="container" v-if="type === 'memo'">
+        <ul class="itemList" v-for="(memo, index) in memoCards" :key="index">
           <li></li>
         </ul>
       </div>
-      <div v-if="type === 'todo'">
-        <ul v-for="(todo, index) in todoCards" :key="index">
+      <div class="container" v-if="type === 'todo'">
+        <ul class="itemList" v-for="(todo, index) in todoCards" :key="index">
           <li>
             <TodoCard
               :id="todo.id"
@@ -52,4 +52,14 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.container {
+  margin-top: 50px;
+}
+
+.itemList {
+  list-style: none;
+  padding-inline-start: 0;
+  margin: 20px 10px;
+}
+</style>

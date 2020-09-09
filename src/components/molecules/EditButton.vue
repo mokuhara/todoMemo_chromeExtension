@@ -1,7 +1,7 @@
 <template>
   <div>
     <div @click="changeStatus">
-      編集
+      <span class="edit">編集</span>
     </div>
   </div>
 </template>
@@ -39,4 +39,12 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.edit {
+  display: inline-block;
+  padding: 3px 8px;
+  background-color: rgb(240, 241, 241);
+  color: #000;
+  border-radius: 3px;
+}
+</style>

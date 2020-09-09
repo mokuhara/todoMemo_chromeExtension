@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      {{ tag.name }}
+      <span class="tag">{{ tag.name }}</span>
     </div>
   </div>
 </template>
@@ -14,4 +14,13 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.tag {
+  display: inline-block;
+  padding: 3px 8px;
+  background-color: rgb(43, 171, 159);
+  color: #fff;
+  border-radius: 3px;
+  text-align: center;
+}
+</style>

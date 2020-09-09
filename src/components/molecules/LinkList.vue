@@ -1,16 +1,16 @@
 <template>
   <div>
-    <div v-if="type==='link'">
-      <ul v-for="(link, index) in linkList" :key="index">
-        <li>
+    <div class="container" v-if="type === 'link'">
+      <ul class="linkList" v-for="(link, index) in linkList" :key="index">
+        <li class="linkText">
           <Link :href="link.href" :text="link.text" />
         </li>
       </ul>
     </div>
-    <div v-if="type==='routerLink'">
-      <ul v-for="(link, index) in linkList" :key="index">
-        <li>
-          <RouterLink :href="link.path" :text="link.text" />
+    <div class="container" v-if="type === 'routerLink'">
+      <ul class="linkList" v-for="(link, index) in linkList" :key="index">
+        <li class="linkText">
+          <RouterLink :path="link.path" :text="link.text" />
         </li>
       </ul>
     </div>
@@ -34,4 +34,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+.linkList {
+  list-style: none;
+  padding-inline-start: 0;
+  margin: 0;
+}
+
+.linkText {
+  display: inline-block;
+  padding: 10px 5px;
+}
 </style>

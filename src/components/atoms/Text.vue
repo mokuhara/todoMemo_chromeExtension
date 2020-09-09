@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div class="text">
       <p>{{ mtext }}</p>
     </div>
   </div>
@@ -14,4 +14,9 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.text {
+  padding: 0;
+  margin: 0;
+}
+</style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div @click="submit">
-      {{ text }}
+      <span class="btn">{{ text }}</span>
     </div>
   </div>
 </template>
@@ -20,4 +20,12 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.btn {
+  padding: 10px 20px;
+  background-color: rgb(43, 171, 159);
+  color: #fff;
+  border-radius: 3px;
+  text-align: center;
+}
+</style>

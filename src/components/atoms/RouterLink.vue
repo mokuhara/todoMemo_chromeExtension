@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="routerLink">
-      <router-link :to="'/' + path">{{ text }}</router-link>
+    <div>
+      <router-link class="routerLink" :to="'/' + path">{{ text }}</router-link>
     </div>
   </div>
 </template>
@@ -16,4 +16,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.routerLink {
+  text-decoration: none;
+  font-size: 14px;
+  color:#000;
+}
 </style>

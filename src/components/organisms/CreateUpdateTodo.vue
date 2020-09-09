@@ -4,19 +4,16 @@
       <div>
         <InputIcon :type="type" />
       </div>
-      <div>
+      <div class="Wrapper">
         <InputText :type="type" />
       </div>
-      <div>
+      <div class="Wrapper">
         <InputCalender :type="type" />
       </div>
-      <div>
+      <div class="Wrapper">
         <InputTag :type="type" />
       </div>
-      <div>
-        <InputCheck />
-      </div>
-      <div>
+      <div class="Wrapper btn">
         <SubmitButton :text="submitButtonText" :callback="changeMT" />
       </div>
     </div>
@@ -79,5 +76,15 @@ export default {
 <style lang="scss" scoped>
 .container {
   padding: 20px;
+}
+
+.Wrapper {
+  margin-top: 15px;
+}
+
+.btn {
+  display: flex;
+  justify-content: flex-end;
+  margin: 30px auto;
 }
 </style>

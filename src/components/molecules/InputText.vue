@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="text">本文</div>
     <textarea-autosize
       placeholder="ここに記入してください"
       ref="myTextarea"
@@ -7,7 +8,7 @@
       :min-height="16"
       :max-height="350"
       @blur.native="onBlurTextarea"
-      style="min-width:80%"
+      style="width:100%"
     />
   </div>
 </template>
@@ -48,4 +49,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.text {
+  color: rgba(0, 0, 0, 0.5);
+}
+</style>

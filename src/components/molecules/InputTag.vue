@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <label class="typo__label">Tagging</label>
+      <label class="typo__label" style="color: rgba(0, 0, 0, 0.5)">タグ</label>
       <Multiselect
         v-model="taggingSelected"
         :options="taggingOptions"
@@ -15,7 +15,7 @@
         placeholder="Type to search or add tag"
       >
       </Multiselect>
-      {{ taggingSelected }}
+      <!-- {{ taggingSelected }} -->
       <!-- <pre class="language-json"><code>{{ value  }}</code></pre> -->
     </div>
   </div>

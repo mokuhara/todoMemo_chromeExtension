@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="container">
+      <div class="text">実施期間</div>
       <v-date-picker :mode="mode" v-model="selectedDate"></v-date-picker>
     </div>
-    {{ selectedDate }}
   </div>
 </template>
 
@@ -56,6 +56,11 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  width: 200px;
+  width: 250px;
+  margin: 0 atuo;
+}
+
+.text {
+  color: rgba(0, 0, 0, 0.5);
 }
 </style>
