@@ -1,43 +1,54 @@
 <template>
   <div>
+    {{ mtMode }}
     todo
     {{ todo }}
     todocard
     {{ todoCards }}
     <div>
-      <CardList :type="type" />
+      <CardList :type="mtMode.type" />
     </div>
     <NewButton />
     <div v-if="modalIsOpen">
       <Modal>
-        <CreateTodo />
+        <CreateUpdateTodo
+          :type="mtMode.type"
+          :method="mtMode.method"
+          :submitButtonText="mtMode.submitButtonText"
+        />
       </Modal>
     </div>
   </div>
 </template>
 
 <script>
-import CreateTodo from "../organisms/CreateTodo";
+import CreateUpdateTodo from "../organisms/CreateUpdateTodo";
 import NewButton from "../molecules/NewButton";
 import Modal from "../molecules/Modal";
 import CardList from "../molecules/CardList";
 
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 
 export default {
-  data() {
-    return {
-      type: "todo",
-    };
-  },
   components: {
     NewButton,
     Modal,
-    CreateTodo,
+    CreateUpdateTodo,
     CardList,
   },
   computed: {
-    ...mapState(["modalIsOpen", "todo", "todoCards"]),
+    ...mapState(["modalIsOpen", "todo", "todoCards", "mtMode"]),
+  },
+  methods: {
+    ...mapMutations(["changeMTmode"]),
+  },
+  mounted() {
+    const payload = {
+      type: "todo",
+      method: "create",
+      submitButtonText: "todoをつくる",
+    };
+    this.changeMTmode(payload);
   },
 };
 </script>

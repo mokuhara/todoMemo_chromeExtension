@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   data() {
@@ -24,6 +24,9 @@ export default {
   props: {
     type: String,
   },
+  computed: {
+    ...mapState(["todo", "memo", "mtMode"]),
+  },
   methods: {
     ...mapMutations(["storeMTToState"]),
     onBlurTextarea() {
@@ -33,6 +36,14 @@ export default {
         data: this.value,
       });
     },
+  },
+  mounted() {
+    if (this.mtMode.method === "update")
+      if (this.type === "memo") {
+        this.value = this.memo.text;
+      } else if (this.type === "todo") {
+        this.value = this.todo.text;
+      }
   },
 };
 </script>

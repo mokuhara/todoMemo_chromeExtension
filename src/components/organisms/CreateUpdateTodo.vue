@@ -17,7 +17,7 @@
         <InputCheck />
       </div>
       <div>
-        <SubmitButton :text="submitButtonText" :callback="createTodo" />
+        <SubmitButton :text="submitButtonText" :callback="changeMT" />
       </div>
     </div>
   </div>
@@ -34,11 +34,10 @@ import InputCheck from "../molecules/InputCheck";
 import { mapActions, mapState, mapMutations } from "vuex";
 
 export default {
-  data() {
-    return {
-      submitButtonText: "todoをつくる",
-      type: "todo",
-    };
+  props: {
+    type: String,
+    method: String,
+    submitButtonText: String,
   },
   components: {
     InputTag,
@@ -54,10 +53,10 @@ export default {
   methods: {
     ...mapActions(["pushMT"]),
     ...mapMutations(["createTimeStamp", "changeMordalStatus"]),
-    createTodo() {
+    changeMT() {
       if (this.validateNullInput()) return;
-      this.createTimeStamp({ type: "todo", method: "create" });
-      this.pushMT({ type: "todo", method: "create" });
+      this.createTimeStamp({ type: this.type, method: this.method });
+      this.pushMT({ type: this.type, method: this.method });
       this.changeMordalStatus();
     },
     validateNullInput() {

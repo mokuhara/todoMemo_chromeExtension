@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   data() {
@@ -22,6 +22,9 @@ export default {
       title: "",
     };
   },
+  computed: {
+    ...mapState(["todo", "memo", "mtMode"]),
+  },
   props: {
     type: String,
   },
@@ -29,27 +32,40 @@ export default {
     ...mapMutations(["storeMTToState"]),
   },
   mounted() {
-    chrome.tabs.getSelected((tab) => {
-      this.title = tab.title;
-      this.url = tab.url;
-      this.favIcon = tab.favIconUrl;
-      //   console.log(tab);
-      this.storeMTToState({
-        type: this.type,
-        dtype: "favIconUrl",
-        data: this.favIcon,
+    if (this.mtMode.method === "create") {
+      chrome.tabs.getSelected((tab) => {
+        this.title = tab.title;
+        this.url = tab.url;
+        this.favIcon = tab.favIconUrl;
+        //   console.log(tab);
+        this.storeMTToState({
+          type: this.type,
+          dtype: "favIconUrl",
+          data: this.favIcon,
+        });
+        this.storeMTToState({
+          type: this.type,
+          dtype: "pageUrl",
+          data: this.url,
+        });
+        this.storeMTToState({
+          type: this.type,
+          dtype: "pageTitle",
+          data: this.title,
+        });
       });
-      this.storeMTToState({
-        type: this.type,
-        dtype: "pageUrl",
-        data: this.url,
-      });
-      this.storeMTToState({
-        type: this.type,
-        dtype: "pageTitle",
-        data: this.title,
-      });
-    });
+    }
+
+    if (this.mtMode.method === "update")
+      if (this.type === "memo") {
+        this.favIcon = this.memo.favIconUrl;
+        this.url = this.memo.pageUrl;
+        this.title = this.memo.pageTitle;
+      } else if (this.type === "todo") {
+        this.favIcon = this.todo.favIconUrl;
+        this.url = this.todo.pageUrl;
+        this.title = this.todo.pageTitle;
+      }
   },
 };
 </script>

@@ -10,9 +10,19 @@
 import { mapMutations, mapState } from "vuex";
 
 export default {
+  computed: {
+    ...mapState(["mtMode"]),
+  },
   methods: {
-    ...mapMutations(["changeMordalStatus"]),
+    ...mapMutations(["changeMordalStatus","changeMTmode"]),
     changeStatus() {
+      const payload = {
+        type: this.mtMode.type,
+        method: "create",
+        submitButtonText: `${this.mtMode.type}をつくる`,
+      };
+      this.changeMTmode(payload);
+
       this.changeMordalStatus();
     },
   },

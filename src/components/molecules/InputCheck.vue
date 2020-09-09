@@ -42,6 +42,7 @@ export default {
         type: this.type,
         dtype: "done",
         data: !this.done,
+        changeValue: true,
       });
       this.pushMT({ type: "todo", method: "update" });
     },

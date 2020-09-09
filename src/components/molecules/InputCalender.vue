@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   data() {
@@ -19,6 +19,9 @@ export default {
   },
   props: {
     type: String,
+  },
+  computed: {
+    ...mapState(["todo", "memo", "mtMode"]),
   },
   methods: {
     ...mapMutations(["storeMTToState"]),
@@ -31,6 +34,22 @@ export default {
         data: { start: this.selectedDate.start, end: this.selectedDate.end },
       });
     },
+  },
+  mounted() {
+    if (this.mtMode.method === "update")
+      if (this.type === "memo") {
+        const dataRage = {
+          start: new Date(this.memo.dateRange.start),
+          end: new Date(this.memo.dateRange.end),
+        };
+        this.selectedDate = dataRage;
+      } else if (this.type === "todo") {
+        const dataRage = {
+          start: new Date(this.todo.dateRange.start),
+          end: new Date(this.todo.dateRange.end),
+        };
+        this.selectedDate = dataRage;
+      }
   },
 };
 </script>

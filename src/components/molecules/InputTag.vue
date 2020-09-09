@@ -15,6 +15,7 @@
         placeholder="Type to search or add tag"
       >
       </Multiselect>
+      {{ taggingSelected }}
       <!-- <pre class="language-json"><code>{{ value  }}</code></pre> -->
     </div>
   </div>
@@ -23,7 +24,7 @@
 <script>
 import Multiselect from "vue-multiselect";
 
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 export default {
   components: {
     Multiselect,
@@ -37,15 +38,22 @@ export default {
   props: {
     type: String,
   },
+  computed: {
+    ...mapState(["todo", "memo", "mtMode"]),
+  },
   methods: {
     ...mapMutations(["storeMTToState"]),
     addTag(newTag) {
+      console.log(newTag);
       const tag = {
         name: newTag,
         code: newTag.substring(0, 2) + Math.floor(Math.random() * 10000000),
       };
+      console.log(tag);
       this.taggingOptions.push(tag);
       this.taggingSelected.push(tag);
+
+      console.log("hogehgoehgeogheogheoghe");
       this.storeMTToState({
         type: this.type,
         dtype: "tags",
@@ -63,6 +71,16 @@ export default {
         data: removedTags,
       });
     },
+  },
+  mounted() {
+    console.log("hoge");
+    console.log(this.type);
+    if (this.mtMode.method === "update")
+      if (this.type === "memo") {
+        this.taggingSelected = this.memo.tags;
+      } else if (this.type === "todo") {
+        this.taggingSelected = this.todo.tags;
+      }
   },
 };
 </script>

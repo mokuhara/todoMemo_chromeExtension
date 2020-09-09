@@ -43,6 +43,11 @@ const state = {
     done: false,
     dateRange: "",
   },
+  mtMode: {
+    type: "",
+    method: "",
+    submitButtonText: "",
+  },
 };
 
 const getters = {};
@@ -61,6 +66,11 @@ const actions = {
     });
     dispatch("getFromRepository", payload.type);
     commit("resetMT", payload.type);
+  },
+  deleteMT({ dispatch}, payload){
+    const repository = new Repository(payload.type);
+    repository.delete(payload.id)
+    dispatch("getFromRepository", payload.type);
   },
   storeToRepository({}, payload) {
     const repository = new Repository(payload.type);
@@ -82,10 +92,17 @@ const actions = {
       return data.id === payload.id;
     });
     commit("setMT", { type: payload.type, data: MT });
-    commit("storeMTToState", payload);
+    if (payload.changeValue) {
+      commit("storeMTToState", payload);
+    }
   },
 };
 const mutations = {
+  changeMTmode(state, payload) {
+    state.mtMode.type = payload.type;
+    state.mtMode.method = payload.method;
+    state.mtMode.submitButtonText = payload.submitButtonText;
+  },
   setMT(state, payload) {
     if (payload.type === "memo") {
       state.memo = payload.data;

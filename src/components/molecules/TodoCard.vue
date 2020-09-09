@@ -18,7 +18,8 @@
             <MText :mtext="updated_at" />
           </div>
           <div>
-            <!-- datelabel  -->
+            <EditButton :mtId="id" />
+            <DeleteButton :mtId="id" />
           </div>
         </div>
         <div class="bottomWrapper">
@@ -38,6 +39,8 @@ import Title from "../atoms/Title";
 import MText from "../atoms/Text";
 import Icon from "../atoms/Icon";
 import TagList from "../atoms/TagList";
+import EditButton from "../molecules/EditButton";
+import DeleteButton from "../molecules/DeleteButton";
 
 export default {
   data() {
@@ -51,6 +54,8 @@ export default {
     MText,
     Icon,
     TagList,
+    EditButton,
+    DeleteButton,
   },
   props: {
     id: String,
