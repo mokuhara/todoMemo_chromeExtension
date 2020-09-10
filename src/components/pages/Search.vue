@@ -4,9 +4,7 @@
       <InputSearch />
     </div>
     <div
-      v-if="
-        (!searchMemoCards.length || !searchTodoCards.length) && searchKeyword
-      "
+      v-if="!searchMemoCards.length && !searchTodoCards.length && searchKeyword"
     >
       <span class="noItem">itemがありません</span>
     </div>

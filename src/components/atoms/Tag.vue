@@ -17,11 +17,14 @@ export default {
 <style lang="scss" scoped>
 .tag {
   display: inline-block;
+  height: 12px;
   padding: 3px 8px;
   background-color: rgb(43, 171, 159);
   color: #fff;
   border-radius: 3px;
   text-align: center;
   font-size: 8px;
+  display: flex;
+  align-items: center;
 }
 </style>
