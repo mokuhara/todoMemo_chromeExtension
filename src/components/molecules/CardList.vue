@@ -3,7 +3,7 @@
     <div>
       <div class="container" v-if="type === 'memo'">
         <ul class="itemList">
-          <li v-for="(memo, index) in memoCards" :key="index">
+          <li v-for="(memo, index) in _memoCards" :key="index">
             <MemoCard
               :id="memo.id"
               :text="memo.text"
@@ -18,7 +18,7 @@
       </div>
       <div class="container" v-if="type === 'todo'">
         <ul class="itemList">
-          <li v-for="(todo, index) in todoCards" :key="index">
+          <li v-for="(todo, index) in _todoCards" :key="index">
             <TodoCard
               :id="todo.id"
               :text="todo.text"
@@ -46,9 +46,27 @@ import { mapState, mapActions } from "vuex";
 export default {
   props: {
     type: String,
+    method: String,
   },
   computed: {
-    ...mapState(["memoCards", "todoCards"]),
+    ...mapState([
+      "memoCards",
+      "todoCards",
+      "searchMemoCards",
+      "searchTodoCards",
+    ]),
+    _todoCards() {
+      if (this.method === "search") {
+        return this.searchTodoCards;
+      }
+      return this.todoCards;
+    },
+    _memoCards() {
+      if (this.method === "search") {
+        return this.searchMemoCards;
+      }
+      return this.memoCards;
+    },
   },
   components: {
     TodoCard,

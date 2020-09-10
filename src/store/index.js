@@ -24,6 +24,8 @@ const state = {
   modalIsOpen: false,
   memoCards: [],
   todoCards: [],
+  searchMemoCards: [],
+  searchTodoCards: [],
   memo: {
     text: "",
     created_at: "",
@@ -97,10 +99,43 @@ const actions = {
       commit("storeMTToState", payload);
     }
   },
+  searchFromRepository({ commit }, text) {
+    let result = [];
+    const searchScope = ["memo", "todo"];
+    searchScope.map((type) => {
+      const repository = new Repository(type);
+      const data = repository.getAll;
+      let searchResult = data.map((data) => {
+        if (
+          data.pageTitle.toLowerCase().indexOf(text.toLowerCase()) != -1 ||
+          data.text.toLowerCase().indexOf(text.toLowerCase()) != -1
+        ) {
+          return data;
+        }
+        data.tags.map((tag) => {
+          if (tag.name.toLowerCase().indexOf(text.toLowerCase()) != -1) {
+            return data;
+          }
+        });
+      });
+      searchResult = searchResult.filter((v) => v);
+      result.push({ type: type, data: searchResult });
+    });
+    commit("storeSearchMT", result);
+  },
 };
 const mutations = {
+  storeSearchMT(state, payload) {
+    payload.map((payload) => {
+      if (payload.type === "memo") {
+        state.searchMemoCards = payload.data;
+      } else if (payload.type === "todo") {
+        state.searchTodoCards = payload.data;
+      }
+    });
+  },
   changeActiveRouterLink(state, linkText) {
-    console.log(linkText)
+    console.log(linkText);
     state.activeRouterLink = linkText;
   },
   changeMTmode(state, payload) {
