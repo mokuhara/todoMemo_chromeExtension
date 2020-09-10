@@ -3,6 +3,13 @@
     <div class="container">
       <InputSearch />
     </div>
+    <div
+      v-if="
+        (!searchMemoCards.length || !searchTodoCards.length) && searchKeyword
+      "
+    >
+      <span class="noItem">itemがありません</span>
+    </div>
     <div>
       <SearchMemoContent />
       <SearchTodoContent />
@@ -43,7 +50,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["searchMemoCards", "searchTodoCards"]),
+    ...mapState(["searchMemoCards", "searchTodoCards", "searchKeyword"]),
     isSearchMemoCards() {
       return this.searchMemoCards.length;
     },
@@ -62,5 +69,9 @@ export default {
 .title {
   font-size: 14px;
   font-weight: bold;
+}
+
+.noItem {
+  color: rgba(0, 0, 0, 0.5);
 }
 </style>
