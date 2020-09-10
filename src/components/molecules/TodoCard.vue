@@ -6,7 +6,7 @@
           <Icon :href="pageUrl" :imgSrc="favIconUrl" />
         </div>
         <div class="checkWrapper">
-          <InputCheck :type="type" :checked="done" :dataId="id" />
+          <InputCheck :checked="done" :callBack="sendInputCheckData" />
         </div>
       </div>
       <div class="rightWrapper">
@@ -44,6 +44,8 @@ import DeleteButton from "../molecules/DeleteButton";
 
 import moment from "moment";
 
+import { mapActions } from "vuex";
+
 export default {
   data() {
     return {
@@ -74,6 +76,19 @@ export default {
     formatDate() {
       const format = "YYYY年MM月DD日";
       return moment(new Date(this.updated_at)).format(format);
+    },
+  },
+  methods: {
+    ...mapActions(["findMTFromRepository", "pushMT"]),
+    sendInputCheckData() {
+      this.findMTFromRepository({
+        id: this.id,
+        type: this.type,
+        dtype: "done",
+        data: !this.done,
+        changeValue: true,
+      });
+      this.pushMT({ type: "todo", method: "update" });
     },
   },
 };

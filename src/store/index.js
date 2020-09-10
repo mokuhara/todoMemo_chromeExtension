@@ -22,8 +22,10 @@ const state = {
   ],
   activeRouterLink: "todo",
   modalIsOpen: false,
+  unDoneFilter: false,
   memoCards: [],
   todoCards: [],
+  unDoneTodoCards: [],
   searchMemoCards: [],
   searchTodoCards: [],
   memo: {
@@ -125,6 +127,9 @@ const actions = {
   },
 };
 const mutations = {
+  changeUndoneFlg(state) {
+    state.unDoneFilter = !state.unDoneFilter;
+  },
   storeSearchMT(state, payload) {
     payload.map((payload) => {
       if (payload.type === "memo") {
@@ -172,6 +177,9 @@ const mutations = {
       state.memoCards = payload.data;
     } else if (payload.type === "todo") {
       state.todoCards = payload.data;
+      state.unDoneTodoCards = payload.data.filter((todo) => {
+        return !todo.done;
+      });
     }
   },
   changeMordalStatus(state) {

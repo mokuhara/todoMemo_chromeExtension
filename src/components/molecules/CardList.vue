@@ -54,10 +54,16 @@ export default {
       "todoCards",
       "searchMemoCards",
       "searchTodoCards",
+      "unDoneTodoCards",
+      "unDoneFilter",
     ]),
     _todoCards() {
+      console.log(this.unDoneFilter);
       if (this.method === "search") {
         return this.searchTodoCards;
+      }
+      if (this.unDoneFilter) {
+        return this.unDoneTodoCards;
       }
       return this.todoCards;
     },
@@ -84,10 +90,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
-  margin-top: 50px;
-}
-
 .itemList {
   list-style: none;
   padding-inline-start: 0;

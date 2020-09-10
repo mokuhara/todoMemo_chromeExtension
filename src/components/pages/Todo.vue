@@ -6,6 +6,10 @@
     todocard
     {{ todoCards }} -->
     <div class="container">
+      <div class="doneWrapper">
+        <div>未完了フィルター</div>
+        <InputCheck :checked="unDoneFilter" :callBack="_changeUndoneFlg" />
+      </div>
       <CardList :type="mtMode.type" />
     </div>
     <NewButton />
@@ -26,21 +30,31 @@ import CreateUpdateTodo from "../organisms/CreateUpdateTodo";
 import NewButton from "../molecules/NewButton";
 import Modal from "../molecules/Modal";
 import CardList from "../molecules/CardList";
+import InputCheck from "../molecules/InputCheck";
 
 import { mapState, mapMutations } from "vuex";
 
 export default {
+  data() {
+    return {
+      type: "filter",
+    };
+  },
   components: {
     NewButton,
     Modal,
     CreateUpdateTodo,
     CardList,
+    InputCheck,
   },
   computed: {
-    ...mapState(["modalIsOpen", "todo", "todoCards", "mtMode"]),
+    ...mapState(["modalIsOpen", "todo", "todoCards", "mtMode", "unDoneFilter"]),
   },
   methods: {
-    ...mapMutations(["changeMTmode"]),
+    ...mapMutations(["changeMTmode", "changeUndoneFlg"]),
+    _changeUndoneFlg() {
+      this.changeUndoneFlg();
+    },
   },
   mounted() {
     const payload = {
@@ -53,4 +67,13 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.container {
+  margin-top: 50px;
+}
+
+.doneWrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+</style>

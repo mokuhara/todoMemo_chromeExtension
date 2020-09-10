@@ -22,10 +22,11 @@ export default {
 html {
   width: 400px;
   height: 100%;
-  min-height: 200px;
+  min-height: 600px;
 }
 
 body {
   border-radius: 5px;
+  overflow: scroll;
 }
 </style>

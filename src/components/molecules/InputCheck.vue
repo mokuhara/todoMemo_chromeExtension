@@ -8,7 +8,7 @@
               <input
                 type="checkbox"
                 v-model="done"
-                @click="sendData"
+                @click="callBack"
                 :checked="checked"
               />
             </div>
@@ -20,8 +20,6 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from "vuex";
-
 export default {
   data() {
     return {
@@ -30,21 +28,12 @@ export default {
   },
   props: {
     checked: Boolean,
+    callBack: Function,
     type: String,
-    dataId: String,
   },
-  methods: {
-    ...mapActions(["findMTFromRepository", "pushMT"]),
-    ...mapMutations(["storeMTToState"]),
-    sendData(e) {
-      this.findMTFromRepository({
-        id: this.dataId,
-        type: this.type,
-        dtype: "done",
-        data: !this.done,
-        changeValue: true,
-      });
-      this.pushMT({ type: "todo", method: "update" });
+  watch: {
+    checked(value) {
+      this.done = value;
     },
   },
 };
