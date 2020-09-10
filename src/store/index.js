@@ -149,11 +149,18 @@ const actions = {
         ) {
           return data;
         }
-        data.tags.map((tag) => {
-          if (tag.name.toLowerCase().indexOf(text.toLowerCase()) != -1) {
-            return data;
-          }
-        });
+        if (data.tags) {
+          let result = data.tags.map((tag) => {
+            if (tag.name.toLowerCase().indexOf(text.toLowerCase()) != -1) {
+              return data;
+            }
+            if (result) {
+              return result
+            }
+          });
+          result = result.filter((v) => v);
+          return result[0]
+        }
       });
       searchResult = searchResult.filter((v) => v);
       result.push({
