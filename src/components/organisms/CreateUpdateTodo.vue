@@ -7,7 +7,7 @@
       <div class="Wrapper">
         <InputText :type="type" />
       </div>
-      <div class="Wrapper">
+      <div class="Wrapper" v-if="type === 'todo'">
         <InputCalender :type="type" />
       </div>
       <div class="Wrapper">
@@ -45,7 +45,7 @@ export default {
     InputCheck,
   },
   computed: {
-    ...mapState(["todo"]),
+    ...mapState(["todo", "memo"]),
   },
   methods: {
     ...mapActions(["pushMT"]),
@@ -57,15 +57,13 @@ export default {
       this.changeMordalStatus();
     },
     validateNullInput() {
-      const todo = this.todo;
-      if (
-        !todo.text ||
-        !todo.pageUrl ||
-        !todo.pageTitle ||
-        !todo.favIconUrl ||
-        !todo.dateRange
-      ) {
+      const MT = this.type === "memo" ? this.memo : this.todo;
+      if (!MT) throw new Error("validateNullInput: null error");
+      if (!MT.text || !MT.pageUrl || !MT.pageTitle) {
         alert("空白の値があります。");
+        return true;
+      } else if (this.type === "todo" && !MT.dateRange) {
+        alert("日付を設定ください");
         return true;
       }
     },

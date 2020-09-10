@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="container">
-      <ul class="tagList" v-for="(tag, index) in tags" :key="index">
-        <li>
+      <ul class="tagWrapper">
+        <li class="tagList" v-for="(tag, index) in tags" :key="index">
           <Tag :tag="tag" />
         </li>
       </ul>
@@ -24,12 +24,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.tagWrapper {
   display: flex;
+  padding-inline-start: 0;
 }
 .tagList {
   list-style: none;
-  padding-inline-start: 0;
   margin: 5px;
   margin-left: 0px;
 }

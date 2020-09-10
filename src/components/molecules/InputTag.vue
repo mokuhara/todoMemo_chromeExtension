@@ -44,16 +44,12 @@ export default {
   methods: {
     ...mapMutations(["storeMTToState"]),
     addTag(newTag) {
-      console.log(newTag);
       const tag = {
         name: newTag,
         code: newTag.substring(0, 2) + Math.floor(Math.random() * 10000000),
       };
-      console.log(tag);
       this.taggingOptions.push(tag);
       this.taggingSelected.push(tag);
-
-      console.log("hogehgoehgeogheogheoghe");
       this.storeMTToState({
         type: this.type,
         dtype: "tags",
@@ -73,8 +69,6 @@ export default {
     },
   },
   mounted() {
-    console.log("hoge");
-    console.log(this.type);
     if (this.mtMode.method === "update")
       if (this.type === "memo") {
         this.taggingSelected = this.memo.tags;

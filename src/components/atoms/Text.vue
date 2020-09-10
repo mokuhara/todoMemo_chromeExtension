@@ -16,7 +16,11 @@ export default {
 
 <style lang="scss" scoped>
 .text {
-  padding: 0;
+  padding: 4px 0;
+  margin: 0;
+}
+
+p {
   margin: 0;
 }
 </style>

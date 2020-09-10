@@ -2,13 +2,23 @@
   <div>
     <div>
       <div class="container" v-if="type === 'memo'">
-        <ul class="itemList" v-for="(memo, index) in memoCards" :key="index">
-          <li></li>
+        <ul class="itemList">
+          <li v-for="(memo, index) in memoCards" :key="index">
+            <MemoCard
+              :id="memo.id"
+              :text="memo.text"
+              :updated_at="memo.updated_at"
+              :pageUrl="memo.pageUrl"
+              :pageTitle="memo.pageTitle"
+              :favIconUrl="memo.favIconUrl"
+              :tags="memo.tags"
+            />
+          </li>
         </ul>
       </div>
       <div class="container" v-if="type === 'todo'">
-        <ul class="itemList" v-for="(todo, index) in todoCards" :key="index">
-          <li>
+        <ul class="itemList">
+          <li v-for="(todo, index) in todoCards" :key="index">
             <TodoCard
               :id="todo.id"
               :text="todo.text"
@@ -29,6 +39,7 @@
 
 <script>
 import TodoCard from "./TodoCard";
+import MemoCard from "./MemoCard";
 
 import { mapState, mapActions } from "vuex";
 
@@ -41,13 +52,15 @@ export default {
   },
   components: {
     TodoCard,
+    MemoCard,
   },
   mmethods: {
     ...mapActions(["getFromRepository"]),
   },
-  mounted() {
-    const type = "todo";
-    this.$store.dispatch("getFromRepository", type);
+  watch: {
+    type(value) {
+      this.$store.dispatch("getFromRepository", value);
+    },
   },
 };
 </script>
@@ -60,6 +73,6 @@ export default {
 .itemList {
   list-style: none;
   padding-inline-start: 0;
-  margin: 20px 10px;
+  margin: 5px 10px;
 }
 </style>
