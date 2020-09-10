@@ -4,6 +4,10 @@
       <InputSearch />
     </div>
     <div>
+      <SearchMemoContent />
+      <SearchTodoContent />
+    </div>
+    <!-- <div>
       <div v-if="isSearchMemoCards">
         <div class="title">memo検索結果</div>
         <CardList :type="memo" :method="method" />
@@ -12,13 +16,15 @@
         <div class="title">todo検索結果</div>
         <CardList :type="todo" :method="method" />
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 import InputSearch from "../molecules/InputSearch";
 import CardList from "../molecules/CardList";
+import SearchMemoContent from "../molecules/SearchMemoContent";
+import SearchTodoContent from "../molecules/SearchTodoContent";
 
 import { mapState } from "vuex";
 
@@ -26,6 +32,8 @@ export default {
   components: {
     InputSearch,
     CardList,
+    SearchMemoContent,
+    SearchTodoContent,
   },
   data() {
     return {

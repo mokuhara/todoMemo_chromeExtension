@@ -14,22 +14,22 @@ export default {
     mtId: String,
   },
   computed: {
-    ...mapState(["mtMode"]),
+    ...mapState(["mtMode", "memo", "MTType"]),
   },
   methods: {
-    ...mapActions(["findMTFromRepository"]),
+    ...mapActions(["findMTFromRepository", "confirmMTType"]),
     ...mapMutations(["changeMordalStatus", "changeMTmode"]),
     changeStatus() {
-      console.log(this.mtId);
-      console.log(this.mtMode.type);
       this.findMTFromRepository({
         id: this.mtId,
         type: this.mtMode.type,
       });
       this.changeMordalStatus();
-
+      this.confirmMTType(this.mtId);
+      const type = this.MTType;
       const payload = {
-        type: this.mtMode.type,
+        // type: this.mtMode.type,
+        type: type,
         method: "update",
         submitButtonText: `${this.mtMode.type}を更新する`,
       };

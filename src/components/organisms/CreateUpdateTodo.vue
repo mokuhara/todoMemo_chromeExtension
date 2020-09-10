@@ -45,15 +45,23 @@ export default {
     InputCheck,
   },
   computed: {
-    ...mapState(["todo", "memo"]),
+    ...mapState(["todo", "memo", "searchKeyword"]),
   },
   methods: {
-    ...mapActions(["pushMT"]),
-    ...mapMutations(["createTimeStamp", "changeMordalStatus"]),
+    ...mapActions(["pushMT", "getFromRepository", "searchFromRepository"]),
+    ...mapMutations([
+      "createTimeStamp",
+      "changeMordalStatus",
+      "setSearchKeyword",
+    ]),
     changeMT() {
       if (this.validateNullInput()) return;
       this.createTimeStamp({ type: this.type, method: this.method });
       this.pushMT({ type: this.type, method: this.method });
+      if (this.searchKeyword) {
+        this.searchFromRepository(this.searchKeyword);
+        this.setSearchKeyword = "";
+      }
       this.changeMordalStatus();
     },
     validateNullInput() {

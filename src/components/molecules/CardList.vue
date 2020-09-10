@@ -58,7 +58,6 @@ export default {
       "unDoneFilter",
     ]),
     _todoCards() {
-      console.log(this.unDoneFilter);
       if (this.method === "search") {
         return this.searchTodoCards;
       }

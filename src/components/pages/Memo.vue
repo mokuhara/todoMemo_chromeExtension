@@ -43,8 +43,6 @@ export default {
     ...mapMutations(["changeMTmode"]),
   },
   mounted() {
-    console.log("memo move");
-    console.log(this.mtMode);
     const payload = {
       type: "memo",
       method: "create",

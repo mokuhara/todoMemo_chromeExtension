@@ -28,6 +28,8 @@ const state = {
   unDoneTodoCards: [],
   searchMemoCards: [],
   searchTodoCards: [],
+  searchKeyword: "",
+  MTType: "",
   memo: {
     text: "",
     created_at: "",
@@ -101,6 +103,20 @@ const actions = {
       commit("storeMTToState", payload);
     }
   },
+  confirmMTType({ commit }, id) {
+    const repositoryM = new Repository("memo");
+    const memos = repositoryM.getAll;
+    const memo = memos.find((memo) => {
+      return memo.id === id;
+    });
+    if (memo) commit("saveMTtype", "memo");
+    const repositoryT = new Repository("todo");
+    const todos = repositoryT.getAll;
+    const todo = todos.find((todo) => {
+      return todo.id === id;
+    });
+    if (todo) commit("saveMTtype", "todo");
+  },
   searchFromRepository({ commit }, text) {
     let result = [];
     const searchScope = ["memo", "todo"];
@@ -127,6 +143,12 @@ const actions = {
   },
 };
 const mutations = {
+  setSearchKeyword(state, keyword) {
+    state.searchKeyword = keyword;
+  },
+  saveMTtype(state, type) {
+    state.MTType = type;
+  },
   changeUndoneFlg(state) {
     state.unDoneFilter = !state.unDoneFilter;
   },

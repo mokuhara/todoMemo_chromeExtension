@@ -28,5 +28,6 @@ html {
 body {
   border-radius: 5px;
   overflow: scroll;
+  height: 100vh;
 }
 </style>

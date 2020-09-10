@@ -18,6 +18,8 @@ export default {
 .text {
   padding: 4px 0;
   margin: 0;
+  display:flex;
+  text-align: center;
 }
 
 p {

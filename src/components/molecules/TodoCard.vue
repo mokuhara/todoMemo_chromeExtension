@@ -11,8 +11,9 @@
       </div>
       <div class="rightWrapper">
         <div class="topWrapper">
-          <div>
+          <div class="dateWrapper">
             <MText class="updatedAt" :mtext="formatDate" />
+            <DateLabel :dateRange="dateRange" />
           </div>
           <div>
             <Title :title="pageTitle" />
@@ -41,6 +42,7 @@ import Icon from "../atoms/Icon";
 import TagList from "../atoms/TagList";
 import EditButton from "../molecules/EditButton";
 import DeleteButton from "../molecules/DeleteButton";
+import DateLabel from "../atoms/DateLavel";
 
 import moment from "moment";
 
@@ -60,6 +62,7 @@ export default {
     TagList,
     EditButton,
     DeleteButton,
+    DateLabel,
   },
   props: {
     id: String,
@@ -98,6 +101,7 @@ export default {
 .container {
   display: flex;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 5px;
 }
 
 .rightWrapper {
@@ -110,9 +114,14 @@ export default {
   justify-content: flex-end;
 }
 
+.dateWrapper {
+  display: flex;
+}
+
 .updatedAt {
   font-size: 8px;
   color: rgba(0, 0, 0, 0.5);
+  margin-right: 5px;
 }
 
 .iconWrapper {

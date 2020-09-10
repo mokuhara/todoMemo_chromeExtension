@@ -12,7 +12,7 @@
 <script>
 import SubmitButton from "../atoms/SubmitButton";
 
-import { mapActions } from "vuex";
+import { mapActions, mapMutations } from "vuex";
 
 export default {
   data() {
@@ -27,8 +27,10 @@ export default {
   },
   methods: {
     ...mapActions(["searchFromRepository"]),
+    ...mapMutations(["setSearchKeyword"]),
     searchText() {
       this.searchFromRepository(this.value);
+      this.setSearchKeyword(this.value);
     },
   },
 };

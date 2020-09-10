@@ -44,12 +44,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.container {
+  width: 100%;
+}
 .linkList {
   list-style: none;
   padding-inline-start: 0;
   margin: 0;
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
 
 .linkText {

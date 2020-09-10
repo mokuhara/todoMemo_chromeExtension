@@ -33,5 +33,9 @@ export default {
   text-decoration: none;
   font-size: 14px;
   color: #000;
+
+  display: inline-block;
+  width: 100%;
+  height: 100%;
 }
 </style>
