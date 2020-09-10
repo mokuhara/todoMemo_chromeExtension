@@ -6,8 +6,7 @@ import Repository from "./repository.js";
 Vue.use(Vuex);
 
 const state = {
-  RouterLinkText: [
-    {
+  RouterLinkText: [{
       path: "memo",
       text: "memo",
     },
@@ -22,7 +21,7 @@ const state = {
   ],
   activeRouterLink: "todo",
   modalIsOpen: false,
-  unDoneFilter: false,
+  unDoneFilter: true,
   memoCards: [],
   todoCards: [],
   unDoneTodoCards: [],
@@ -59,7 +58,11 @@ const state = {
 
 const getters = {};
 const actions = {
-  pushMT({ dispatch, state, commit }, payload) {
+  pushMT({
+    dispatch,
+    state,
+    commit
+  }, payload) {
     let data;
     if (payload.type === "memo") {
       data = state.memo;
@@ -74,7 +77,9 @@ const actions = {
     dispatch("getFromRepository", payload.type);
     commit("resetMT", payload.type);
   },
-  deleteMT({ dispatch }, payload) {
+  deleteMT({
+    dispatch
+  }, payload) {
     const repository = new Repository(payload.type);
     repository.delete(payload.id);
     dispatch("getFromRepository", payload.type);
@@ -87,23 +92,35 @@ const actions = {
       repository.update(payload.data);
     }
   },
-  getFromRepository({ commit }, type) {
+  getFromRepository({
+    commit
+  }, type) {
     const repository = new Repository(type);
     const data = repository.getAll;
-    commit("pushMT", { type, data });
+    commit("pushMT", {
+      type,
+      data
+    });
   },
-  findMTFromRepository({ commit }, payload) {
+  findMTFromRepository({
+    commit
+  }, payload) {
     const repository = new Repository(payload.type);
     const data = repository.getAll;
     const MT = data.find((data) => {
       return data.id === payload.id;
     });
-    commit("setMT", { type: payload.type, data: MT });
+    commit("setMT", {
+      type: payload.type,
+      data: MT
+    });
     if (payload.changeValue) {
       commit("storeMTToState", payload);
     }
   },
-  confirmMTType({ commit }, id) {
+  confirmMTType({
+    commit
+  }, id) {
     const repositoryM = new Repository("memo");
     const memos = repositoryM.getAll;
     const memo = memos.find((memo) => {
@@ -117,7 +134,9 @@ const actions = {
     });
     if (todo) commit("saveMTtype", "todo");
   },
-  searchFromRepository({ commit }, text) {
+  searchFromRepository({
+    commit
+  }, text) {
     let result = [];
     const searchScope = ["memo", "todo"];
     searchScope.map((type) => {
@@ -137,7 +156,10 @@ const actions = {
         });
       });
       searchResult = searchResult.filter((v) => v);
-      result.push({ type: type, data: searchResult });
+      result.push({
+        type: type,
+        data: searchResult
+      });
     });
     commit("storeSearchMT", result);
   },
