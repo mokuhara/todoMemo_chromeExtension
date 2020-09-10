@@ -162,7 +162,6 @@ const mutations = {
     });
   },
   changeActiveRouterLink(state, linkText) {
-    console.log(linkText);
     state.activeRouterLink = linkText;
   },
   changeMTmode(state, payload) {
@@ -208,8 +207,6 @@ const mutations = {
     state.modalIsOpen = !state.modalIsOpen;
   },
   storeMTToState(state, payload) {
-    console.log("storeMTToState");
-    console.log(payload);
     if (payload.type === "memo") {
       Object.keys(state.memo).map((key) => {
         if (key === payload.dtype) {
@@ -225,7 +222,6 @@ const mutations = {
         }
       });
     }
-    console.log(state.memo);
   },
   resetMT(state, type) {
     if (type === "memo") {

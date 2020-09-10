@@ -20,20 +20,20 @@ export default {
     ...mapActions(["findMTFromRepository", "confirmMTType"]),
     ...mapMutations(["changeMordalStatus", "changeMTmode"]),
     changeStatus() {
-      this.findMTFromRepository({
-        id: this.mtId,
-        type: this.mtMode.type,
-      });
-      this.changeMordalStatus();
       this.confirmMTType(this.mtId);
       const type = this.MTType;
+      this.findMTFromRepository({
+        id: this.mtId,
+        type: type,
+      });
       const payload = {
         // type: this.mtMode.type,
         type: type,
         method: "update",
-        submitButtonText: `${this.mtMode.type}を更新する`,
+        submitButtonText: `${type}を更新する`,
       };
       this.changeMTmode(payload);
+      this.changeMordalStatus();
     },
   },
 };
