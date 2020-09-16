@@ -11,8 +11,11 @@
           <MText class="updatedAt" :mtext="formatDate" />
           <Title :title="pageTitle" />
         </div>
-        <div>
+        <!-- <div>
           <MText :mtext="text" />
+        </div> -->
+        <div>
+          <MarkdownText :mtext="text" />
         </div>
         <div>
           <TagList :tags="tags" />
@@ -33,6 +36,7 @@ import Icon from "../atoms/Icon";
 import TagList from "../atoms/TagList";
 import EditButton from "../molecules/EditButton";
 import DeleteButton from "../molecules/DeleteButton";
+import MarkdownText from "../molecules/MarkdownText";
 
 import moment from "moment";
 
@@ -49,6 +53,7 @@ export default {
     EditButton,
     DeleteButton,
     TagList,
+    MarkdownText,
   },
   props: {
     id: String,

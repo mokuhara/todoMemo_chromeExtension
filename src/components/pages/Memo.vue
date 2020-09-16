@@ -48,6 +48,7 @@ export default {
       method: "create",
       submitButtonText: "memoをつくる",
     };
+    console.log(payload)
     this.changeMTmode(payload);
   },
 };

@@ -20,7 +20,8 @@
           </div>
         </div>
         <div class="bottomWrapper">
-          <MText :mtext="text" />
+          <!-- <MText :mtext="text" /> -->
+          <MarkdownText :mtext="text" />
         </div>
         <div>
           <TagList :tags="tags" />
@@ -43,6 +44,7 @@ import TagList from "../atoms/TagList";
 import EditButton from "../molecules/EditButton";
 import DeleteButton from "../molecules/DeleteButton";
 import DateLabel from "../atoms/DateLavel";
+import MarkdownText from "../molecules/MarkdownText";
 
 import moment from "moment";
 
@@ -63,6 +65,7 @@ export default {
     EditButton,
     DeleteButton,
     DateLabel,
+    MarkdownText,
   },
   props: {
     id: String,

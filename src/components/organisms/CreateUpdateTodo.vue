@@ -27,6 +27,7 @@ import InputCalender from "../molecules/InputCalender";
 import InputIcon from "../molecules/InputIcon";
 import SubmitButton from "../atoms/SubmitButton";
 import InputCheck from "../molecules/InputCheck";
+import MarkdownText from "../molecules/MarkdownText";
 
 import { mapActions, mapState, mapMutations } from "vuex";
 
@@ -43,6 +44,7 @@ export default {
     InputIcon,
     SubmitButton,
     InputCheck,
+    MarkdownText,
   },
   computed: {
     ...mapState(["todo", "memo", "searchKeyword"]),

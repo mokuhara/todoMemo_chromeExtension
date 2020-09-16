@@ -126,13 +126,13 @@ const actions = {
     const memo = memos.find((memo) => {
       return memo.id === id;
     });
-    if (memo) commit("saveMTtype", "memo");
+    if (memo) return commit("saveMTtype", "memo");
     const repositoryT = new Repository("todo");
     const todos = repositoryT.getAll;
     const todo = todos.find((todo) => {
       return todo.id === id;
     });
-    if (todo) commit("saveMTtype", "todo");
+    if (todo) return commit("saveMTtype", "todo");
   },
   searchFromRepository({
     commit

@@ -2,7 +2,7 @@
   <div>
     <div>
       <div class="container" v-if="type === 'memo'">
-        <ul class="itemList">
+        <draggable tag="ul" class="itemList">
           <li v-for="(memo, index) in _memoCards" :key="index">
             <MemoCard
               :id="memo.id"
@@ -14,10 +14,10 @@
               :tags="memo.tags"
             />
           </li>
-        </ul>
+        </draggable>
       </div>
       <div class="container" v-if="type === 'todo'">
-        <ul class="itemList">
+        <draggable tag="ul" class="itemList">
           <li v-for="(todo, index) in _todoCards" :key="index">
             <TodoCard
               :id="todo.id"
@@ -31,7 +31,7 @@
               :dateRange="todo.dateRange"
             />
           </li>
-        </ul>
+        </draggable>
       </div>
     </div>
   </div>
@@ -40,6 +40,8 @@
 <script>
 import TodoCard from "./TodoCard";
 import MemoCard from "./MemoCard";
+
+import draggable from "vuedraggable";
 
 import { mapState, mapActions } from "vuex";
 
@@ -56,6 +58,8 @@ export default {
       "searchTodoCards",
       "unDoneTodoCards",
       "unDoneFilter",
+      "memo",
+      "todo",
     ]),
     _todoCards() {
       if (this.method === "search") {
@@ -76,6 +80,7 @@ export default {
   components: {
     TodoCard,
     MemoCard,
+    draggable,
   },
   mmethods: {
     ...mapActions(["getFromRepository"]),
