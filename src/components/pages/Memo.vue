@@ -27,7 +27,7 @@ import NewButton from "../molecules/NewButton";
 import Modal from "../molecules/Modal";
 import CardList from "../molecules/CardList";
 
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
   components: {
@@ -41,6 +41,7 @@ export default {
   },
   methods: {
     ...mapMutations(["changeMTmode"]),
+    ...mapActions(["checkLogin", "getFromRepository"]),
   },
   mounted() {
     const payload = {
@@ -48,8 +49,9 @@ export default {
       method: "create",
       submitButtonText: "memoをつくる",
     };
-    console.log(payload)
     this.changeMTmode(payload);
+    this.checkLogin();
+    this.getFromRepository("memo");
   },
 };
 </script>

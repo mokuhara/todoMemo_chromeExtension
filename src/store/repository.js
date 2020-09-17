@@ -23,8 +23,7 @@ export default class Repository {
   }
 
   update(data) {
-    const localStrageData =
-      [...JSON.parse(localStorage.getItem(this.key))] || [];
+    const localStrageData = [...JSON.parse(localStorage.getItem(this.key))] || [];
     localStrageData.forEach((localStorageData) => {
       if (localStorageData.id == data.id) {
         Object.keys(data).map((key) => {
@@ -36,8 +35,7 @@ export default class Repository {
   }
 
   delete(id) {
-    const localStrageData =
-      [...JSON.parse(localStorage.getItem(this.key))] || [];
+    const localStrageData = [...JSON.parse(localStorage.getItem(this.key))] || [];
     let _localStrageData = [];
     localStrageData.forEach((localStorageData) => {
       if (localStorageData.id != id) {
@@ -68,4 +66,27 @@ export default class Repository {
     }
     return r;
   }
+
+  getUser() {
+    const localStrageData = localStorage.getItem("user");
+    if (!localStrageData) return;
+    return JSON.parse(localStrageData);
+  }
+
+  setUser(data) {
+    localStorage.setItem("user", JSON.stringify({
+      name: data.name,
+      iconUrl: data.iconUrl
+    }));
+  }
+
+  deleteUser() {
+    localStorage.removeItem("user")
+  }
+
+  isLogin() {
+    const user = this.getUser()
+    return (user && user.name && user.iconUrl) ? true : false
+  }
+
 }

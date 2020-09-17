@@ -20,10 +20,8 @@ export default {
     ...mapActions(["findMTFromRepository", "confirmMTType"]),
     ...mapMutations(["changeMordalStatus", "changeMTmode"]),
     changeStatus() {
-      console.log(this.mtId, this.MTType);
       this.confirmMTType(this.mtId);
       const type = this.MTType;
-      console.log(this.mtId, this.MTType);
       this.findMTFromRepository({
         id: this.mtId,
         type: type,

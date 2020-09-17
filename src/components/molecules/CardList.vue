@@ -2,6 +2,7 @@
   <div>
     <div>
       <div class="container" v-if="type === 'memo'">
+        {{ memoCards }}
         <draggable tag="ul" class="itemList">
           <li v-for="(memo, index) in _memoCards" :key="index">
             <MemoCard
@@ -12,6 +13,7 @@
               :pageTitle="memo.pageTitle"
               :favIconUrl="memo.favIconUrl"
               :tags="memo.tags"
+              :isShared="memo.isShared"
             />
           </li>
         </draggable>
@@ -43,7 +45,7 @@ import MemoCard from "./MemoCard";
 
 import draggable from "vuedraggable";
 
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
   props: {
@@ -60,6 +62,8 @@ export default {
       "unDoneFilter",
       "memo",
       "todo",
+      "isShared",
+      "user",
     ]),
     _todoCards() {
       if (this.method === "search") {
@@ -82,8 +86,9 @@ export default {
     MemoCard,
     draggable,
   },
-  mmethods: {
+  methods: {
     ...mapActions(["getFromRepository"]),
+    ...mapMutations(["changeIsShared"]),
   },
   watch: {
     type(value) {

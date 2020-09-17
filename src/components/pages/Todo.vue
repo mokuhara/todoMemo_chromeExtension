@@ -32,7 +32,7 @@ import Modal from "../molecules/Modal";
 import CardList from "../molecules/CardList";
 import InputCheck from "../molecules/InputCheck";
 
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
   data() {
@@ -52,6 +52,7 @@ export default {
   },
   methods: {
     ...mapMutations(["changeMTmode", "changeUndoneFlg"]),
+    ...mapActions(["getFromRepository"]),
     _changeUndoneFlg() {
       this.changeUndoneFlg();
     },
@@ -63,6 +64,7 @@ export default {
       submitButtonText: "todoをつくる",
     };
     this.changeMTmode(payload);
+    this.getFromRepository("todo");
   },
 };
 </script>

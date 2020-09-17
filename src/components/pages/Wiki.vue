@@ -4,6 +4,7 @@
       <!-- <CardList :type="mtMode.type" /> -->
     </div>
     <Auth />
+    {{  wikiMemoCards }}
     <!-- <NewButton />
     <div v-if="modalIsOpen">
       <Modal>
@@ -18,16 +19,28 @@
 </template>
 
 <script>
-import CardList from "../molecules/CardList";
+// import CardList from "../molecules/CardList";
 import Auth from "../molecules/Auth";
 
-import { mapState, mapMutations } from "vuex";
+import { mapActions, mapState } from "vuex"
 
 export default {
   components: {
-    CardList,
+    // CardList,
     Auth,
   },
+  computed: {
+    ...mapState(["wikiMemoCards"])
+  },
+  methods: {
+    ...mapActions(["wikiHandler"]),
+  },
+  mounted(){
+    const payload = {
+        method: "get"
+      }
+      this.wikiHandler(payload);
+  }
 };
 </script>
 
@@ -36,3 +49,7 @@ export default {
   margin-top: 50px;
 }
 </style>
+
+
+
+<style lang="scss" scoped>

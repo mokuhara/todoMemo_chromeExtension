@@ -1,9 +1,11 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+
 import Repository from "./repository.js";
 import * as firebase from "firebase/app";
 import "firebase/auth";
+import 'firebase/firestore';
 
 
 const firebaseConfig = {
@@ -16,6 +18,7 @@ const firebaseConfig = {
   appId: "1:699798509849:web:9b2f5ba3df837dcbc48d88",
 };
 firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
 
 Vue.use(Vuex);
@@ -41,6 +44,7 @@ const state = {
   activeRouterLink: "todo",
   modalIsOpen: false,
   unDoneFilter: true,
+  sharedMemos: [],
   memoCards: [],
   todoCards: [],
   wikiMemoCards: [],
@@ -56,7 +60,9 @@ const state = {
     pageUrl: "",
     pageTitle: "",
     favIconUrl: "",
+    isShared: false,
     tags: [],
+
   },
   todo: {
     text: "",
@@ -83,6 +89,16 @@ const state = {
 
 const getters = {};
 const actions = {
+  checkLogin({
+    commit,
+    state
+  }) {
+    const repository = new Repository("");
+    if (state.user.isLogin) return
+    if (!repository.isLogin()) return
+    const user = repository.getUser()
+    commit('storeUser', user)
+  },
   signIn({
     dispatch
   }) {
@@ -103,39 +119,52 @@ const actions = {
   AuthStateChanged({
     commit
   }) {
+    const repository = new Repository("");
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log('aaaaaaa')
-        console.log(user)
         const _user = {
           name: user.displayName,
           iconUrl: user.photoURL
         }
+        repository.setUser(_user)
         commit('storeUser', _user)
       } else {
         commit('deleteUser')
+        repository.deleteUser()
       }
     })
   },
   wikiHandler({
     commit,
-    state
+    state,
+    dispatch
   }, payload) {
     try {
       if (!payload || !payload.method) throw new Error('[wikiHandler] payload or method is null')
       if (payload.method === 'create') {
+
         db.collection("memo").doc(payload.id).set({
           userName: payload.userName,
           userIconUrl: payload.userIconUrl,
-          name: payload.name,
           text: payload.text,
-          created_at: payload.created_at,
+          updated_at: payload.updated_at,
           pageUrl: payload.pageUrl,
           pageTitle: payload.pageTitle,
           favIconUrl: payload.favIconUrl,
           tags: payload.tags,
         }).then(() => {
           console.log("Document successfully written!")
+          dispatch("findMTFromRepository", {
+            id: payload.id,
+            type: "memo",
+            changeValue: true,
+            dtype: "isShared",
+            data: true,
+          })
+          dispatch("pushMT", {
+            type: "memo",
+            method: "update"
+          })
         }).catch((error) => {
           console.error("Error writing document: ", error);
         })
@@ -149,11 +178,28 @@ const actions = {
           });
           commit('storeWikiMemo', memos)
         });
-      } else if (payload.method === 'get') {
+      } else if (payload.method === 'delete') {
         db.collection("memo").doc(payload.id).delete().then(() => {
           console.log("Document successfully deleted!");
+          dispatch("findMTFromRepository", {
+            id: payload.id,
+            type: "memo",
+            changeValue: true,
+            dtype: "isShared",
+            data: false,
+          })
+          dispatch("pushMT", {
+            type: "memo",
+            method: "update"
+          })
         }).catch((error) => {
           console.error("Error removing document: ", error);
+        });
+      } else if (payload.method === 'find') {
+        db.collection("memo").doc(payload.id).get().then(doc => {
+          if (!doc.exists) return
+        }).catch((error) => {
+          console.error("Error finding document: ", error);
         });
       }
     } catch (e) {
@@ -171,6 +217,7 @@ const actions = {
     } else if (payload.type === "todo") {
       data = state.todo;
     }
+    console.log(state.memo)
     dispatch("storeToRepository", {
       data: data,
       type: payload.type,
@@ -186,7 +233,7 @@ const actions = {
     repository.delete(payload.id);
     dispatch("getFromRepository", payload.type);
   },
-  storeToRepository({}, payload) {
+  storeToRepository(_, payload) {
     const repository = new Repository(payload.type);
     if (payload.method === "create") {
       repository.store(payload.data);
@@ -195,7 +242,7 @@ const actions = {
     }
   },
   getFromRepository({
-    commit
+    commit,
   }, type) {
     const repository = new Repository(type);
     const data = repository.getAll;
@@ -274,6 +321,9 @@ const actions = {
   },
 };
 const mutations = {
+  changeIsShared(state, isShared) {
+    state.isShared = isShared
+  },
   storeUser(state, user) {
     state.user.name = user.name
     state.user.iconUrl = user.iconUrl
@@ -355,7 +405,8 @@ const mutations = {
     if (payload.type === "memo") {
       Object.keys(state.memo).map((key) => {
         if (key === payload.dtype) {
-          if (!payload.data) return;
+          if (payload.data === null || payload.data === undefined) return;
+          console.log(payload.data)
           state.memo[key] = payload.data;
         }
       });
@@ -377,6 +428,7 @@ const mutations = {
         pageUrl: "",
         pageTitle: "",
         favIconUrl: "",
+        isShared: false,
         tags: [],
       };
     } else if (type === "todo") {

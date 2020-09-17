@@ -21,6 +21,18 @@
           <TagList :tags="tags" />
         </div>
         <div class="btnWrapper">
+          <div class="btn">
+            <ShareButton
+              :isShared="isShared"
+              :mtId="id"
+              :text="text"
+              :updated_at="formatDate"
+              :pageUrl="pageUrl"
+              :pageTitle="pageTitle"
+              :favIconUrl="favIconUrl"
+              :tags="tags"
+            />
+          </div>
           <div class="btn"><EditButton :mtId="id" /></div>
           <div class="btn"><DeleteButton :mtId="id" /></div>
         </div>
@@ -37,6 +49,7 @@ import TagList from "../atoms/TagList";
 import EditButton from "../molecules/EditButton";
 import DeleteButton from "../molecules/DeleteButton";
 import MarkdownText from "../molecules/MarkdownText";
+import ShareButton from "../molecules/ShareButton";
 
 import moment from "moment";
 
@@ -54,6 +67,7 @@ export default {
     DeleteButton,
     TagList,
     MarkdownText,
+    ShareButton,
   },
   props: {
     id: String,
@@ -63,6 +77,7 @@ export default {
     pageTitle: String,
     favIconUrl: String,
     tags: Array,
+    isShared: Boolean,
   },
   computed: {
     formatDate() {
