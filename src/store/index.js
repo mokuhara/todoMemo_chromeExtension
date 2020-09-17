@@ -2,6 +2,21 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 import Repository from "./repository.js";
+import * as firebase from "firebase/app";
+import "firebase/auth";
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCrvFTd_2bQWF5aMAXWloi1a8G0rp123Jg",
+  authDomain: "todomemo-8809f.firebaseapp.com",
+  databaseURL: "https://todomemo-8809f.firebaseio.com",
+  projectId: "todomemo-8809f",
+  storageBucket: "todomemo-8809f.appspot.com",
+  messagingSenderId: "699798509849",
+  appId: "1:699798509849:web:9b2f5ba3df837dcbc48d88",
+};
+firebase.initializeApp(firebaseConfig);
+
 
 Vue.use(Vuex);
 
@@ -18,12 +33,17 @@ const state = {
       path: "search",
       text: "search",
     },
+    {
+      path: "wiki",
+      text: "wiki",
+    },
   ],
   activeRouterLink: "todo",
   modalIsOpen: false,
   unDoneFilter: true,
   memoCards: [],
   todoCards: [],
+  wikiMemoCards: [],
   unDoneTodoCards: [],
   searchMemoCards: [],
   searchTodoCards: [],
@@ -54,10 +74,92 @@ const state = {
     method: "",
     submitButtonText: "",
   },
+  user: {
+    name: "",
+    iconUrl: "",
+    isLogin: false
+  }
 };
 
 const getters = {};
 const actions = {
+  signIn({
+    dispatch
+  }) {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope("https://www.googleapis.com/auth/userinfo.email");
+    firebase.auth().useDeviceLanguage();
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+    dispatch('AuthStateChanged')
+  },
+  signOut({
+    dispatch
+  }) {
+    firebase.auth().signOut()
+    dispatch('AuthStateChanged')
+  },
+  AuthStateChanged({
+    commit
+  }) {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        console.log('aaaaaaa')
+        console.log(user)
+        const _user = {
+          name: user.displayName,
+          iconUrl: user.photoURL
+        }
+        commit('storeUser', _user)
+      } else {
+        commit('deleteUser')
+      }
+    })
+  },
+  wikiHandler({
+    commit,
+    state
+  }, payload) {
+    try {
+      if (!payload || !payload.method) throw new Error('[wikiHandler] payload or method is null')
+      if (payload.method === 'create') {
+        db.collection("memo").doc(payload.id).set({
+          userName: payload.userName,
+          userIconUrl: payload.userIconUrl,
+          name: payload.name,
+          text: payload.text,
+          created_at: payload.created_at,
+          pageUrl: payload.pageUrl,
+          pageTitle: payload.pageTitle,
+          favIconUrl: payload.favIconUrl,
+          tags: payload.tags,
+        }).then(() => {
+          console.log("Document successfully written!")
+        }).catch((error) => {
+          console.error("Error writing document: ", error);
+        })
+      } else if (payload.method === 'get') {
+        db.collection("memo").limit(30).get().then((querySnapshot) => {
+          const memos = []
+          querySnapshot.forEach((doc) => {
+            console.log(state.user)
+            // if((doc.data()).userName === state.user.name) return
+            memos.push(doc.data())
+          });
+          commit('storeWikiMemo', memos)
+        });
+      } else if (payload.method === 'get') {
+        db.collection("memo").doc(payload.id).delete().then(() => {
+          console.log("Document successfully deleted!");
+        }).catch((error) => {
+          console.error("Error removing document: ", error);
+        });
+      }
+    } catch (e) {
+      console.error(`Error: ${e}`)
+    }
+  },
   pushMT({
     dispatch,
     state,
@@ -99,7 +201,7 @@ const actions = {
     const data = repository.getAll;
     commit("pushMT", {
       type,
-      data
+      data,
     });
   },
   findMTFromRepository({
@@ -112,7 +214,7 @@ const actions = {
     });
     commit("setMT", {
       type: payload.type,
-      data: MT
+      data: MT,
     });
     if (payload.changeValue) {
       commit("storeMTToState", payload);
@@ -155,23 +257,36 @@ const actions = {
               return data;
             }
             if (result) {
-              return result
+              return result;
             }
           });
           result = result.filter((v) => v);
-          return result[0]
+          return result[0];
         }
       });
       searchResult = searchResult.filter((v) => v);
       result.push({
         type: type,
-        data: searchResult
+        data: searchResult,
       });
     });
     commit("storeSearchMT", result);
   },
 };
 const mutations = {
+  storeUser(state, user) {
+    state.user.name = user.name
+    state.user.iconUrl = user.iconUrl
+    state.user.isLogin = true
+  },
+  deleteUser(state) {
+    state.user.name = ''
+    state.user.iconUrl = ''
+    state.user.isLogin = false
+  },
+  storeWikiMemo(state, memos) {
+    state.wikiMemoCards = memos
+  },
   setSearchKeyword(state, keyword) {
     state.searchKeyword = keyword;
   },
@@ -223,6 +338,7 @@ const mutations = {
     }
   },
   pushMT(state, payload) {
+    if (!payload || !payload.data) return
     if (payload.type === "memo") {
       state.memoCards = payload.data;
     } else if (payload.type === "todo") {

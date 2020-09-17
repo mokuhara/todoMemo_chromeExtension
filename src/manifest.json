@@ -5,7 +5,8 @@
   "description": "You can save the URL and memo of the page you are viewing. You can also create todo",
   "default_locale": "en",
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "<all_urls>"
   ],
   "icons": {
     "16": "icons/16.png",
@@ -25,5 +26,6 @@
       "16": "icons/16.png",
       "36": "icons/36.png"
     }
-  }
+  },
+  "content_security_policy": "script-src 'self' https://apis.google.com/js/api.js https://apis.google.com/ 'unsafe-eval'; object-src 'self'"
 }
