@@ -1,46 +1,37 @@
 <template>
   <div>
     <div class="container">
-      <!-- <CardList :type="mtMode.type" /> -->
+      <div>
+        <Auth />
+      </div>
+      <div>
+        <WikiList />
+      </div>
     </div>
-    <Auth />
-    {{  wikiMemoCards }}
-    <!-- <NewButton />
-    <div v-if="modalIsOpen">
-      <Modal>
-        <CreateUpdateTodo
-          :type="mtMode.type"
-          :method="mtMode.method"
-          :submitButtonText="mtMode.submitButtonText"
-        />
-      </Modal>
-    </div>-->
   </div>
 </template>
 
 <script>
-// import CardList from "../molecules/CardList";
 import Auth from "../molecules/Auth";
+import WikiList from "../molecules/WikiList";
 
-import { mapActions, mapState } from "vuex"
+import { mapActions } from "vuex";
 
 export default {
   components: {
-    // CardList,
     Auth,
-  },
-  computed: {
-    ...mapState(["wikiMemoCards"])
+    WikiList,
   },
   methods: {
-    ...mapActions(["wikiHandler"]),
+    ...mapActions(["wikiHandler", "checkLogin"]),
   },
-  mounted(){
+  mounted() {
     const payload = {
-        method: "get"
-      }
-      this.wikiHandler(payload);
-  }
+      method: "get",
+    };
+    this.wikiHandler(payload);
+    this.checkLogin();
+  },
 };
 </script>
 
@@ -49,7 +40,3 @@ export default {
   margin-top: 50px;
 }
 </style>
-
-
-
-<style lang="scss" scoped>

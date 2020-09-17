@@ -2,7 +2,6 @@
   <div>
     <div>
       <div class="container" v-if="type === 'memo'">
-        {{ memoCards }}
         <draggable tag="ul" class="itemList">
           <li v-for="(memo, index) in _memoCards" :key="index">
             <MemoCard
