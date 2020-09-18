@@ -37,7 +37,6 @@ export default {
         this.title = tab.title;
         this.url = tab.url;
         this.favIcon = tab.favIconUrl;
-        //   console.log(tab);
         this.storeMTToState({
           type: this.type,
           dtype: "favIconUrl",

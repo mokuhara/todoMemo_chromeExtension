@@ -48,7 +48,6 @@ export default {
         favIconUrl: this.favIconUrl,
         tags: this.tags,
       };
-      console.log(payload);
       this.wikiHandler(payload);
     },
     unSharedMemo() {

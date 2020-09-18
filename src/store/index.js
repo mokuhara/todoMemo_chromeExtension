@@ -6,17 +6,10 @@ import Repository from "./repository.js";
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import 'firebase/firestore';
+import {
+  firebaseConfig
+} from '../../config.js'
 
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCrvFTd_2bQWF5aMAXWloi1a8G0rp123Jg",
-  authDomain: "todomemo-8809f.firebaseapp.com",
-  databaseURL: "https://todomemo-8809f.firebaseio.com",
-  projectId: "todomemo-8809f",
-  storageBucket: "todomemo-8809f.appspot.com",
-  messagingSenderId: "699798509849",
-  appId: "1:699798509849:web:9b2f5ba3df837dcbc48d88",
-};
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
@@ -173,10 +166,9 @@ const actions = {
           console.error("Error writing document: ", error);
         })
       } else if (payload.method === 'get') {
-        db.collection("memo").limit(1).get().then((querySnapshot) => {
+        db.collection("memo").limit(3).get().then((querySnapshot) => {
           const memos = []
           querySnapshot.forEach((doc) => {
-            console.log(state.user)
             // if((doc.data()).userName === state.user.name) return
             memos.push(doc.data())
           });
@@ -204,14 +196,12 @@ const actions = {
           console.error("Error removing document: ", error);
         });
       } else if (payload.method === 'find') {
-        console.log('find')
         const keyword = state.searchKeyword
         db.collection("memo").get().then((querySnapshot) => {
           let memos = []
           querySnapshot.forEach((doc) => {
             if (!doc.exists) return
             const memo = doc.data()
-            console.log(memo)
             if (
               memo.pageTitle.toLowerCase().indexOf(keyword.toLowerCase()) != -1 ||
               memo.text.toLowerCase().indexOf(keyword.toLowerCase()) != -1 ||
@@ -226,7 +216,6 @@ const actions = {
               memos.push(filteredMemo[0]);
             }
             memos = memos.filter((v) => v);
-            console.log(memos)
             commit('storeWikiMemo', memos)
             commit("setSearchKeyword", "")
           });
@@ -249,7 +238,6 @@ const actions = {
     } else if (payload.type === "todo") {
       data = state.todo;
     }
-    console.log(state.memo)
     dispatch("storeToRepository", {
       data: data,
       type: payload.type,
@@ -438,7 +426,6 @@ const mutations = {
       Object.keys(state.memo).map((key) => {
         if (key === payload.dtype) {
           if (payload.data === null || payload.data === undefined) return;
-          console.log(payload.data)
           state.memo[key] = payload.data;
         }
       });

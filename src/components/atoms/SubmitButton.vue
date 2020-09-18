@@ -15,7 +15,6 @@ export default {
   },
   methods: {
     submit() {
-      console.log("submit");
       if (this.arg) {
         this.callback(this.arg);
       } else {
