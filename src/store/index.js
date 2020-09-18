@@ -259,6 +259,16 @@ const actions = {
   deleteMT({
     dispatch
   }, payload) {
+    if (payload.type == "memo") {
+      db.collection("memo").doc(payload.id).get().then((doc) => {
+        if (!doc.exists) return
+        db.collection("memo").doc(payload.id).delete().then(() => {
+          console.log("Document successfully deleted!");
+        }).catch((error) => {
+          console.error("Error removing document: ", error);
+        });
+      })
+    }
     const repository = new Repository(payload.type);
     repository.delete(payload.id);
     dispatch("getFromRepository", payload.type);
