@@ -50,8 +50,14 @@ export default class Repository {
     // localStorage.removeItem(this.key)
   }
 
+  storeAll(data) {
+    localStorage.removeItem(this.key)
+    localStorage.setItem(this.key, JSON.stringify(data))
+  }
+
   get getAll() {
     const localStrageData = localStorage.getItem(this.key);
+    console.log(localStrageData)
     if (!localStrageData) return;
     return JSON.parse(localStrageData);
   }

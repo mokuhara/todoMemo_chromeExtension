@@ -54,6 +54,8 @@ const state = {
     pageTitle: "",
     favIconUrl: "",
     isShared: false,
+    order: "",
+    isArchive: false,
     tags: [],
 
   },
@@ -67,6 +69,7 @@ const state = {
     tags: [],
     done: false,
     dateRange: "",
+    order: "",
   },
   mtMode: {
     type: "",
@@ -82,6 +85,13 @@ const state = {
 
 const getters = {};
 const actions = {
+  setOrder({
+    dispatch
+  }, payload) {
+    const repository = new Repository(payload.type);
+    repository.storeAll(payload.data)
+    dispatch("getFromRepository", payload.type);
+  },
   checkLogin({
     commit,
     state
@@ -448,6 +458,8 @@ const mutations = {
         pageTitle: "",
         favIconUrl: "",
         isShared: false,
+        order: "",
+        isArchive: false,
         tags: [],
       };
     } else if (type === "todo") {
@@ -461,6 +473,7 @@ const mutations = {
         tags: [],
         done: false,
         dateRange: "",
+        order: "",
       };
     }
   },

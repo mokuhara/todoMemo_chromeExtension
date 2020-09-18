@@ -2,7 +2,7 @@
   <div>
     <div>
       <div class="container" v-if="type === 'memo' && _memoCards">
-        <draggable tag="ul" class="itemList">
+        <draggable @end="changeOrder" tag="ul" class="itemList memo">
           <li v-for="(memo, index) in _memoCards" :key="index">
             <MemoCard
               :id="memo.id"
@@ -13,12 +13,13 @@
               :favIconUrl="memo.favIconUrl"
               :tags="memo.tags"
               :isShared="memo.isShared"
+              :data-content="JSON.stringify(memo)"
             />
           </li>
         </draggable>
       </div>
       <div class="container" v-if="type === 'todo' && _todoCards">
-        <draggable tag="ul" class="itemList">
+        <draggable @end="changeOrder" tag="ul" class="itemList todo">
           <li v-for="(todo, index) in _todoCards" :key="index">
             <TodoCard
               :id="todo.id"
@@ -30,6 +31,7 @@
               :tags="todo.tags"
               :done="todo.done"
               :dateRange="todo.dateRange"
+              :data-content="JSON.stringify(todo)"
             />
           </li>
         </draggable>
@@ -47,6 +49,12 @@ import draggable from "vuedraggable";
 import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
+  data() {
+    return {
+      items: [],
+      isOrder: false,
+    };
+  },
   props: {
     type: String,
     method: String,
@@ -86,13 +94,35 @@ export default {
     draggable,
   },
   methods: {
-    ...mapActions(["getFromRepository"]),
+    ...mapActions(["getFromRepository", "setOrder"]),
     ...mapMutations(["changeIsShared"]),
+    changeOrder() {
+      const elem = document.querySelector(`.${this.type}`);
+      const items = Array.from(elem.children);
+      let result = [];
+      items.forEach((item, index) => {
+        const target = item.firstElementChild;
+        const _item = JSON.parse(target.dataset.content);
+        _item.order = index;
+        result.push(_item);
+      });
+      this.items = result;
+      this.isOrder = true;
+    },
   },
   watch: {
     type(value) {
       this.$store.dispatch("getFromRepository", value);
     },
+  },
+  beforeDestroy() {
+    if (this.isOrder) {
+      const payload = {
+        type: this.type,
+        data: this.items,
+      };
+      this.setOrder(payload);
+    }
   },
 };
 </script>
