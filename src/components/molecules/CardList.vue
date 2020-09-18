@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <div class="container" v-if="type === 'memo'">
+      <div class="container" v-if="type === 'memo' && _memoCards">
         <draggable tag="ul" class="itemList">
           <li v-for="(memo, index) in _memoCards" :key="index">
             <MemoCard
@@ -17,7 +17,7 @@
           </li>
         </draggable>
       </div>
-      <div class="container" v-if="type === 'todo'">
+      <div class="container" v-if="type === 'todo' && _todoCards">
         <draggable tag="ul" class="itemList">
           <li v-for="(todo, index) in _todoCards" :key="index">
             <TodoCard

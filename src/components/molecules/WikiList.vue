@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div v-if="wikiMemoCards">
       <ul class="itemList">
         <li v-for="(memo, index) in wikiMemoCards" :key="index">
           <WikiCard

@@ -66,7 +66,7 @@ export default {
 .btn {
   display: inline-block;
   padding: 3px 8px;
-  background-color: rgb(240, 202, 36);
+  background-color: rgb(239, 152, 22);
   color: #fff;
   border-radius: 3px;
 }

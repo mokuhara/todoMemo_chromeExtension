@@ -165,11 +165,15 @@ const actions = {
             type: "memo",
             method: "update"
           })
+          if (state.searchKeyword) {
+            dispatch("searchFromRepository", state.searchKeyword)
+            commit("setSearchKeyword", "")
+          }
         }).catch((error) => {
           console.error("Error writing document: ", error);
         })
       } else if (payload.method === 'get') {
-        db.collection("memo").limit(30).get().then((querySnapshot) => {
+        db.collection("memo").limit(1).get().then((querySnapshot) => {
           const memos = []
           querySnapshot.forEach((doc) => {
             console.log(state.user)
@@ -192,12 +196,40 @@ const actions = {
             type: "memo",
             method: "update"
           })
+          if (state.searchKeyword) {
+            dispatch("searchFromRepository", state.searchKeyword)
+            commit("setSearchKeyword", "")
+          }
         }).catch((error) => {
           console.error("Error removing document: ", error);
         });
       } else if (payload.method === 'find') {
-        db.collection("memo").doc(payload.id).get().then(doc => {
-          if (!doc.exists) return
+        console.log('find')
+        const keyword = state.searchKeyword
+        db.collection("memo").get().then((querySnapshot) => {
+          let memos = []
+          querySnapshot.forEach((doc) => {
+            if (!doc.exists) return
+            const memo = doc.data()
+            console.log(memo)
+            if (
+              memo.pageTitle.toLowerCase().indexOf(keyword.toLowerCase()) != -1 ||
+              memo.text.toLowerCase().indexOf(keyword.toLowerCase()) != -1 ||
+              memo.userName.toLowerCase().indexOf(keyword.toLowerCase()) != -1
+            ) {
+              memos.push(memo)
+            }
+            if (memo.tags) {
+              let filteredMemo = memo.tags.filter((tag) => {
+                return tag.name.toLowerCase().indexOf(keyword.toLowerCase()) != -1
+              })
+              memos.push(filteredMemo[0]);
+            }
+            memos = memos.filter((v) => v);
+            console.log(memos)
+            commit('storeWikiMemo', memos)
+            commit("setSearchKeyword", "")
+          });
         }).catch((error) => {
           console.error("Error finding document: ", error);
         });

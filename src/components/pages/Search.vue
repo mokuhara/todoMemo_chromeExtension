@@ -1,14 +1,19 @@
 <template>
   <div>
     <div class="container">
-      <InputSearch />
+      <InputSearch
+        :submitButtonText="submitButtonText"
+        :inputPlaceholder="inputPlaceholder"
+        :callback="searchText"
+      />
     </div>
     <div
+      class="seachResult"
       v-if="!searchMemoCards.length && !searchTodoCards.length && searchKeyword"
     >
       <span class="noItem">itemがありません</span>
     </div>
-    <div>
+    <div class="seachResult">
       <SearchMemoContent />
       <SearchTodoContent />
     </div>
@@ -31,7 +36,7 @@ import CardList from "../molecules/CardList";
 import SearchMemoContent from "../molecules/SearchMemoContent";
 import SearchTodoContent from "../molecules/SearchTodoContent";
 
-import { mapState } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
   components: {
@@ -45,6 +50,8 @@ export default {
       todo: "todo",
       memo: "memo",
       method: "search",
+      submitButtonText: "検索する",
+      inputPlaceholder: "キーワードを入力",
     };
   },
   computed: {
@@ -56,12 +63,27 @@ export default {
       return this.searchTodoCards.length;
     },
   },
+  methods: {
+    ...mapActions(["searchFromRepository", "checkLogin"]),
+    ...mapMutations(["setSearchKeyword"]),
+    searchText(text) {
+      this.searchFromRepository(text);
+      this.setSearchKeyword(text);
+    },
+  },
+  mounted() {
+    this.checkLogin();
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .container {
-  margin-top: 30px;
+  margin-top: 50px;
+}
+
+.seachResult {
+  margin-top: 10px;
 }
 
 .title {

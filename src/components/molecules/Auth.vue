@@ -10,7 +10,13 @@
       <div class="logout" v-if="user.isLogin === true">
         <div class="user">
           <wikiIcon :imgSrc="user.iconUrl" />
-          <Title class="userName" :title="user.name" />
+        </div>
+        <div>
+          <InputSearch
+            :submitButtonText="submitButtonText"
+            :inputPlaceholder="inputPlaceholder"
+            :callback="serchWiki"
+          />
         </div>
         <div class="btn" @click="_signOut">
           ログアウト
@@ -21,25 +27,46 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 import wikiIcon from "../atoms/wikiIcon";
-import Title from "../atoms/Title";
+import InputSearch from "../molecules/InputSearch";
 
 export default {
+  data() {
+    return {
+      submitButtonText: "検索する",
+      inputPlaceholder: "キーワードを入力",
+    };
+  },
   components: {
     wikiIcon,
-    Title,
+    InputSearch,
   },
   computed: {
     ...mapState(["user"]),
   },
   methods: {
-    ...mapActions(["signIn", "signOut"]),
+    ...mapActions(["signIn", "signOut", "wikiHandler"]),
+    ...mapMutations(["setSearchKeyword"]),
     _signIn() {
       this.signIn();
     },
     _signOut() {
       this.signOut();
+    },
+    serchWiki(text) {
+      if (text) {
+        const payload = {
+          method: "find",
+        };
+        this.setSearchKeyword(text);
+        this.wikiHandler(payload);
+      } else {
+        const payload = {
+          method: "get",
+        };
+        this.wikiHandler(payload);
+      }
     },
   },
 };
@@ -52,7 +79,7 @@ export default {
 
 .btn {
   width: 60px;
-  padding: 10px;
+  padding: 5px;
   border-radius: 3px;
 }
 

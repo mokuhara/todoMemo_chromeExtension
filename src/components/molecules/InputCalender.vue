@@ -13,7 +13,7 @@ import { mapMutations, mapState } from "vuex";
 export default {
   data() {
     return {
-      selectedDate: "",
+      selectedDate: { start: new Date(), end: new Date() },
       mode: "range",
     };
   },

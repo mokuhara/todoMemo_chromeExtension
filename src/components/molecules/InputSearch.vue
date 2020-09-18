@@ -1,10 +1,17 @@
 <template>
   <div>
-    <div class="inputWrapper">
-      <input type="text" v-model="value" placeholder="キーワードを入力" />
-    </div>
-    <div class="btnWrapper">
-      <SubmitButton :text="submitButtonText" :callback="callback" />
+    <div class="container">
+      <div class="inputWrapper">
+        <input type="text" v-model="value" :placeholder="inputPlaceholder" />
+        <!-- <input type="text" v-model="value" placeholder="キーワードを入力" /> -->
+      </div>
+      <div class="btnWrapper">
+        <SubmitButton
+          :text="submitButtonText"
+          :callback="callback"
+          :arg="value"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -12,42 +19,46 @@
 <script>
 import SubmitButton from "../atoms/SubmitButton";
 
-import { mapActions, mapMutations } from "vuex";
-
 export default {
   data() {
     return {
       value: "",
-      submitButtonText: "検索する",
-      callback: this.searchText,
     };
+  },
+  props: {
+    submitButtonText: String,
+    inputPlaceholder: String,
+    callback: Function,
   },
   components: {
     SubmitButton,
-  },
-  methods: {
-    ...mapActions(["searchFromRepository"]),
-    ...mapMutations(["setSearchKeyword"]),
-    searchText() {
-      this.searchFromRepository(this.value);
-      this.setSearchKeyword(this.value);
-    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.inputWrapper input {
+.container {
+  display: flex;
+}
+
+.inputWrapper {
   width: 70%;
-  margin-top: 20px;
-  padding: 10px 15px;
-  font-size: 14px;
+  margin-right: 10px;
+}
+
+.inputWrapper input {
+  width: 100%;
+  padding: 5px 5px;
+  font-size: 12px;
   border-radius: 3px;
   border: 2px solid #ddd;
   box-sizing: border-box;
 }
 
 .btnWrapper {
-  margin: 20px 0px;
+  display: flex;
+  align-items: center;
+  width: 30%;
+  margin: 0;
 }
 </style>
