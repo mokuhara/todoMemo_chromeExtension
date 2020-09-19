@@ -13,6 +13,7 @@
               :favIconUrl="memo.favIconUrl"
               :tags="memo.tags"
               :isShared="memo.isShared"
+              :isArchive="memo.isArchive"
               :data-content="JSON.stringify(memo)"
             />
           </li>
@@ -66,7 +67,9 @@ export default {
       "searchMemoCards",
       "searchTodoCards",
       "unDoneTodoCards",
+      "archiveMemoCards",
       "unDoneFilter",
+      "archiveFilter",
       "memo",
       "todo",
       "isShared",
@@ -85,7 +88,13 @@ export default {
       if (this.method === "search") {
         return this.searchMemoCards;
       }
-      return this.memoCards;
+      if (this.archiveFilter) {
+        return this.archiveMemoCards;
+      }
+      const filterMemos = this.memoCards.filter((memo) => {
+        return !memo.isArchive;
+      });
+      return filterMemos;
     },
   },
   components: {

@@ -1,11 +1,10 @@
 <template>
   <div>
-    <!-- {{ mtMode }}
-    memo
-    {{ memo }}
-    memocard
-    {{ memoCards }} -->
     <div class="container">
+      <div class="archiveWrapper">
+        <div class="archiveTitle">アーカイブ</div>
+        <div><InputSwitch :callback="callback" /></div>
+      </div>
       <CardList :type="mtMode.type" />
     </div>
     <NewButton />
@@ -26,6 +25,7 @@ import CreateUpdateTodo from "../organisms/CreateUpdateTodo";
 import NewButton from "../molecules/NewButton";
 import Modal from "../molecules/Modal";
 import CardList from "../molecules/CardList";
+import InputSwitch from "../molecules/InputSwitch";
 
 import { mapState, mapMutations, mapActions } from "vuex";
 
@@ -35,13 +35,23 @@ export default {
     Modal,
     CreateUpdateTodo,
     CardList,
+    InputSwitch,
   },
   computed: {
-    ...mapState(["modalIsOpen", "memo", "memoCards", "mtMode"]),
+    ...mapState([
+      "modalIsOpen",
+      "memo",
+      "memoCards",
+      "mtMode",
+      "archiveMemoCards",
+    ]),
   },
   methods: {
-    ...mapMutations(["changeMTmode"]),
+    ...mapMutations(["changeMTmode", "changArchiveStatus"]),
     ...mapActions(["checkLogin", "getFromRepository"]),
+    callback(bool) {
+      this.changArchiveStatus(bool);
+    },
   },
   mounted() {
     const payload = {
@@ -59,5 +69,14 @@ export default {
 <style lang="scss" scoped>
 .container {
   margin-top: 50px;
+}
+
+.archiveWrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.archiveTitle {
+  padding-right: 5px;
 }
 </style>

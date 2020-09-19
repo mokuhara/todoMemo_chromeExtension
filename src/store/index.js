@@ -18,11 +18,11 @@ Vue.use(Vuex);
 
 const state = {
   RouterLinkText: [{
-      path: "memo",
+      path: "",
       text: "memo",
     },
     {
-      path: "",
+      path: "todo",
       text: "todo",
     },
     {
@@ -34,14 +34,16 @@ const state = {
       text: "wiki",
     },
   ],
-  activeRouterLink: "todo",
+  activeRouterLink: "memo",
   modalIsOpen: false,
   unDoneFilter: true,
+  archiveFilter: false,
   sharedMemos: [],
   memoCards: [],
   todoCards: [],
   wikiMemoCards: [],
   unDoneTodoCards: [],
+  archiveMemoCards: [],
   searchMemoCards: [],
   searchTodoCards: [],
   searchKeyword: "",
@@ -383,6 +385,10 @@ const mutations = {
   saveMTtype(state, type) {
     state.MTType = type;
   },
+  changArchiveStatus(state, bool) {
+    console.log(bool)
+    state.archiveFilter = bool;
+  },
   changeUndoneFlg(state) {
     state.unDoneFilter = !state.unDoneFilter;
   },
@@ -431,6 +437,9 @@ const mutations = {
     if (!payload || !payload.data) return
     if (payload.type === "memo") {
       state.memoCards = payload.data;
+      state.archiveMemoCards = payload.data.filter((memo) => {
+        return memo.isArchive;
+      });
     } else if (payload.type === "todo") {
       state.todoCards = payload.data;
       state.unDoneTodoCards = payload.data.filter((todo) => {

@@ -3,17 +3,17 @@ import VueRouter from "vue-router";
 import Memo from "../components/pages/Memo.vue";
 import Todo from "../components/pages/Todo.vue";
 import Serach from "../components/pages/Search.vue";
-import Wiki from "../components/pages/Wiki.vue";
+import Wiki from "../components/pages/Wiki.vue"
 
 Vue.use(VueRouter);
 
 const routes = [{
-    path: "/memo",
+    path: "/",
     name: "Memo",
     component: Memo,
   },
   {
-    path: "/",
+    path: "/todo",
     name: "Todo",
     component: Todo,
   },

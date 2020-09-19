@@ -57,7 +57,6 @@ export default class Repository {
 
   get getAll() {
     const localStrageData = localStorage.getItem(this.key);
-    console.log(localStrageData)
     if (!localStrageData) return;
     return JSON.parse(localStrageData);
   }

@@ -5,6 +5,9 @@
         <div class="iconWrapper">
           <Icon :href="pageUrl" :imgSrc="favIconUrl" />
         </div>
+        <!-- <div class="switchWrapper">
+          <InputSwitch />
+        </div> -->
       </div>
       <div class="rightWrapper">
         <div>
@@ -21,6 +24,7 @@
           <TagList :tags="tags" />
         </div>
         <div class="btnWrapper">
+          <div class="btn"><ArchiveButton :mtId="id" :isArchive="isArchive"/></div>
           <div class="btn">
             <ShareButton
               :isShared="isShared"
@@ -50,6 +54,8 @@ import EditButton from "../molecules/EditButton";
 import DeleteButton from "../molecules/DeleteButton";
 import MarkdownText from "../molecules/MarkdownText";
 import ShareButton from "../molecules/ShareButton";
+import InputSwitch from "../molecules/InputSwitch";
+import ArchiveButton from "../molecules/ArchiveButton";
 
 import moment from "moment";
 
@@ -68,6 +74,8 @@ export default {
     TagList,
     MarkdownText,
     ShareButton,
+    InputSwitch,
+    ArchiveButton,
   },
   props: {
     id: String,
@@ -78,6 +86,7 @@ export default {
     favIconUrl: String,
     tags: Array,
     isShared: Boolean,
+    isArchive: Boolean
   },
   computed: {
     formatDate() {
@@ -94,12 +103,22 @@ export default {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+.leftWrapper {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+}
+
 .updatedAt {
   font-size: 8px;
   color: rgba(0, 0, 0, 0.5);
 }
 
 .iconWrapper {
+  margin: 10px;
+}
+
+.switchWrapper {
   margin: 10px;
 }
 

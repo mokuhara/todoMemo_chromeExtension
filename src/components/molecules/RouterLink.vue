@@ -32,7 +32,10 @@ export default {
 .routerLink {
   text-decoration: none;
   font-size: 14px;
+  text-align: center;
   color: #000;
+  height: 30px;
+  line-height: 40px;
 
   display: inline-block;
   width: 100%;
