@@ -178,11 +178,13 @@ const actions = {
           console.error("Error writing document: ", error);
         })
       } else if (payload.method === 'get') {
-        db.collection("memo").limit(3).get().then((querySnapshot) => {
+        db.collection("memo").limit(30).get().then((querySnapshot) => {
           const memos = []
           querySnapshot.forEach((doc) => {
-            // if((doc.data()).userName === state.user.name) return
-            memos.push(doc.data())
+            if ((doc.data()).userName != state.user.name) {
+              memos.push(doc.data())
+            }
+            // memos.push(doc.data())
           });
           commit('storeWikiMemo', memos)
         });
@@ -209,7 +211,7 @@ const actions = {
         });
       } else if (payload.method === 'find') {
         const keyword = state.searchKeyword
-        db.collection("memo").get().then((querySnapshot) => {
+        db.collection("memo").limit(1000).get().then((querySnapshot) => {
           let memos = []
           querySnapshot.forEach((doc) => {
             if (!doc.exists) return
